@@ -1,11 +1,14 @@
 package com.skillstorm.taxappbackend.models;
-
+import javax.persistence.Column;
 import javax.persistence.Id;
 
 public class User {
 
     @Id
+    @Column
     private Integer user_id;
+
+
     private String user_email;
     private String user_password;
     private String isSelfemployed;
