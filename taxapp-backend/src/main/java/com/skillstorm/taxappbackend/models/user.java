@@ -1,17 +1,31 @@
 package com.skillstorm.taxappbackend.models;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class User {
+@Entity
+@Table(name = "User")
+public class User { // One User can have one Taxpayer infromation
 
-    @Id
-    @Column
+    @Id // primary key
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // SPECIFY AUTO INCREMENT
     private Integer user_id;
 
-
+    @Column(name = "user_email")
     private String user_email;
+
+    @Column(name = "user_password")
     private String user_password;
+
+    @Column(name = "isSelfemployed")
     private String isSelfemployed;
+
+    @Column(name = "isEmployee")
     private String isEmployee;
 
     public User() {
