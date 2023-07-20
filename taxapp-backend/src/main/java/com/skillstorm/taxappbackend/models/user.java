@@ -2,7 +2,7 @@ package com.skillstorm.taxappbackend.models;
 
 import javax.persistence.Id;
 
-public class user {
+public class User {
 
     @Id
     private Integer user_id;
@@ -11,10 +11,10 @@ public class user {
     private String isSelfemployed;
     private String isEmployee;
 
-    public user() {
+    public User() {
     }
 
-    public user(String user_email, String user_password, String isSelfemployed, String isEmployee) {
+    public User(String user_email, String user_password, String isSelfemployed, String isEmployee) {
         this.user_email = user_email;
         this.user_password = user_password;
         this.isSelfemployed = isSelfemployed;
@@ -81,7 +81,7 @@ public class user {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        user other = (user) obj;
+        User other = (User) obj;
         if (user_id == null) {
             if (other.user_id != null)
                 return false;
