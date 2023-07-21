@@ -1,5 +1,6 @@
 package com.skillstorm.taxappbackend.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,108 +8,105 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Tax_information")
+@Table(name = "taxInfo")
 public class TaxInformation {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer tax_info_id;
-
-    @ManyToOne
-    @JoinColumn(name = "taxpayer_id", referencedColumnName = "taxpayer_id")
-    private TaxPayerInformation taxpayerInformation;
+    private Long taxInfoId;
 
     @Column(name = "filing_status")
-    private String filing_status;
+    private String filingStatus;
 
     @Column(name = "age")
-    private Integer age;
+    private Long age;
 
-    @Column(name = "number_of_dependents")
-    private Integer number_of_dependents;
+    @Column(name = "dependents")
+    private Long dependents;
 
-    @Column(name = "isBlind", columnDefinition = "BIT")
+    @Column(name = "isBlind")
     private boolean isBlind;
 
     @Column(name = "income_w2")
-    private Integer income_w2;
+    private Long incomeW2;
 
     @Column(name = "income_1099")
-    private Integer income_1099;
+    private Long income1099;
 
     @Column(name = "taxes_paid_w2")
-    private Integer taxes_paid_w2;
+    private Long taxesPaidW2;
 
     @Column(name = "taxes_paid_1099")
-    private Integer taxes_paid_1099;
+    private Long taxesPaid1099;
 
     @Column(name = "employer")
     private String employer;
 
     @Column(name = "company_name")
-    private String company_name;
+    private String companyName;
+
+    @ManyToOne
+    @JoinColumn(name = "userInfo_Id")
+    private UserInfo userInfo;
+
+    @OneToOne(mappedBy = "taxInformation", cascade = CascadeType.ALL)
+    private TaxCalculations taxCalculations;
 
     public TaxInformation() {
     }
 
-    public TaxInformation(TaxPayerInformation taxpayerInformation, String filing_status, Integer age,
-            Integer number_of_dependents, boolean isBlind, Integer income_w2, Integer income_1099,
-            Integer taxes_paid_w2, Integer taxes_paid_1099, String employer, String company_name) {
-        this.taxpayerInformation = taxpayerInformation;
-        this.filing_status = filing_status;
+    public TaxInformation(String filingStatus, Long age, Long dependents, boolean isBlind, Long incomeW2,
+            Long income1099, Long taxesPaidW2, Long taxesPaid1099, String employer, String companyName,
+            UserInfo userInfo, TaxCalculations taxCalculations) {
+        this.filingStatus = filingStatus;
         this.age = age;
-        this.number_of_dependents = number_of_dependents;
+        this.dependents = dependents;
         this.isBlind = isBlind;
-        this.income_w2 = income_w2;
-        this.income_1099 = income_1099;
-        this.taxes_paid_w2 = taxes_paid_w2;
-        this.taxes_paid_1099 = taxes_paid_1099;
+        this.incomeW2 = incomeW2;
+        this.income1099 = income1099;
+        this.taxesPaidW2 = taxesPaidW2;
+        this.taxesPaid1099 = taxesPaid1099;
         this.employer = employer;
-        this.company_name = company_name;
+        this.companyName = companyName;
+        this.userInfo = userInfo;
+        this.taxCalculations = taxCalculations;
     }
 
-    public Integer getTax_info_id() {
-        return tax_info_id;
+    public Long getTaxInfoId() {
+        return taxInfoId;
     }
 
-    public void setTax_info_id(Integer tax_info_id) {
-        this.tax_info_id = tax_info_id;
+    public void setTaxInfoId(Long taxInfoId) {
+        this.taxInfoId = taxInfoId;
     }
 
-    public TaxPayerInformation getTaxpayerInformation() {
-        return taxpayerInformation;
+    public String getFilingStatus() {
+        return filingStatus;
     }
 
-    public void setTaxpayerInformation(TaxPayerInformation taxpayerInformation) {
-        this.taxpayerInformation = taxpayerInformation;
+    public void setFilingStatus(String filingStatus) {
+        this.filingStatus = filingStatus;
     }
 
-    public String getFiling_status() {
-        return filing_status;
-    }
-
-    public void setFiling_status(String filing_status) {
-        this.filing_status = filing_status;
-    }
-
-    public Integer getAge() {
+    public Long getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(Long age) {
         this.age = age;
     }
 
-    public Integer getNumber_of_dependents() {
-        return number_of_dependents;
+    public Long getDependents() {
+        return dependents;
     }
 
-    public void setNumber_of_dependents(Integer number_of_dependents) {
-        this.number_of_dependents = number_of_dependents;
+    public void setDependents(Long dependents) {
+        this.dependents = dependents;
     }
 
     public boolean isBlind() {
@@ -119,36 +117,36 @@ public class TaxInformation {
         this.isBlind = isBlind;
     }
 
-    public Integer getIncome_w2() {
-        return income_w2;
+    public Long getIncomeW2() {
+        return incomeW2;
     }
 
-    public void setIncome_w2(Integer income_w2) {
-        this.income_w2 = income_w2;
+    public void setIncomeW2(Long incomeW2) {
+        this.incomeW2 = incomeW2;
     }
 
-    public Integer getIncome_1099() {
-        return income_1099;
+    public Long getIncome1099() {
+        return income1099;
     }
 
-    public void setIncome_1099(Integer income_1099) {
-        this.income_1099 = income_1099;
+    public void setIncome1099(Long income1099) {
+        this.income1099 = income1099;
     }
 
-    public Integer getTaxes_paid_w2() {
-        return taxes_paid_w2;
+    public Long getTaxesPaidW2() {
+        return taxesPaidW2;
     }
 
-    public void setTaxes_paid_w2(Integer taxes_paid_w2) {
-        this.taxes_paid_w2 = taxes_paid_w2;
+    public void setTaxesPaidW2(Long taxesPaidW2) {
+        this.taxesPaidW2 = taxesPaidW2;
     }
 
-    public Integer getTaxes_paid_1099() {
-        return taxes_paid_1099;
+    public Long getTaxesPaid1099() {
+        return taxesPaid1099;
     }
 
-    public void setTaxes_paid_1099(Integer taxes_paid_1099) {
-        this.taxes_paid_1099 = taxes_paid_1099;
+    public void setTaxesPaid1099(Long taxesPaid1099) {
+        this.taxesPaid1099 = taxesPaid1099;
     }
 
     public String getEmployer() {
@@ -159,30 +157,47 @@ public class TaxInformation {
         this.employer = employer;
     }
 
-    public String getCompany_name() {
-        return company_name;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setCompany_name(String company_name) {
-        this.company_name = company_name;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public TaxCalculations getTaxCalculations() {
+        return taxCalculations;
+    }
+
+    public void setTaxCalculations(TaxCalculations taxCalculations) {
+        this.taxCalculations = taxCalculations;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((tax_info_id == null) ? 0 : tax_info_id.hashCode());
-        result = prime * result + ((taxpayerInformation == null) ? 0 : taxpayerInformation.hashCode());
-        result = prime * result + ((filing_status == null) ? 0 : filing_status.hashCode());
+        result = prime * result + ((taxInfoId == null) ? 0 : taxInfoId.hashCode());
+        result = prime * result + ((filingStatus == null) ? 0 : filingStatus.hashCode());
         result = prime * result + ((age == null) ? 0 : age.hashCode());
-        result = prime * result + ((number_of_dependents == null) ? 0 : number_of_dependents.hashCode());
+        result = prime * result + ((dependents == null) ? 0 : dependents.hashCode());
         result = prime * result + (isBlind ? 1231 : 1237);
-        result = prime * result + ((income_w2 == null) ? 0 : income_w2.hashCode());
-        result = prime * result + ((income_1099 == null) ? 0 : income_1099.hashCode());
-        result = prime * result + ((taxes_paid_w2 == null) ? 0 : taxes_paid_w2.hashCode());
-        result = prime * result + ((taxes_paid_1099 == null) ? 0 : taxes_paid_1099.hashCode());
+        result = prime * result + ((incomeW2 == null) ? 0 : incomeW2.hashCode());
+        result = prime * result + ((income1099 == null) ? 0 : income1099.hashCode());
+        result = prime * result + ((taxesPaidW2 == null) ? 0 : taxesPaidW2.hashCode());
+        result = prime * result + ((taxesPaid1099 == null) ? 0 : taxesPaid1099.hashCode());
         result = prime * result + ((employer == null) ? 0 : employer.hashCode());
-        result = prime * result + ((company_name == null) ? 0 : company_name.hashCode());
+        result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
+        result = prime * result + ((userInfo == null) ? 0 : userInfo.hashCode());
+        result = prime * result + ((taxCalculations == null) ? 0 : taxCalculations.hashCode());
         return result;
     }
 
@@ -195,64 +210,68 @@ public class TaxInformation {
         if (getClass() != obj.getClass())
             return false;
         TaxInformation other = (TaxInformation) obj;
-        if (tax_info_id == null) {
-            if (other.tax_info_id != null)
+        if (taxInfoId == null) {
+            if (other.taxInfoId != null)
                 return false;
-        } else if (!tax_info_id.equals(other.tax_info_id))
+        } else if (!taxInfoId.equals(other.taxInfoId))
             return false;
-        if (taxpayerInformation == null) {
-            if (other.taxpayerInformation != null)
+        if (filingStatus == null) {
+            if (other.filingStatus != null)
                 return false;
-        } else if (!taxpayerInformation.equals(other.taxpayerInformation))
-            return false;
-        if (filing_status == null) {
-            if (other.filing_status != null)
-                return false;
-        } else if (!filing_status.equals(other.filing_status))
+        } else if (!filingStatus.equals(other.filingStatus))
             return false;
         if (age == null) {
             if (other.age != null)
                 return false;
         } else if (!age.equals(other.age))
             return false;
-        if (number_of_dependents == null) {
-            if (other.number_of_dependents != null)
+        if (dependents == null) {
+            if (other.dependents != null)
                 return false;
-        } else if (!number_of_dependents.equals(other.number_of_dependents))
+        } else if (!dependents.equals(other.dependents))
             return false;
         if (isBlind != other.isBlind)
             return false;
-        if (income_w2 == null) {
-            if (other.income_w2 != null)
+        if (incomeW2 == null) {
+            if (other.incomeW2 != null)
                 return false;
-        } else if (!income_w2.equals(other.income_w2))
+        } else if (!incomeW2.equals(other.incomeW2))
             return false;
-        if (income_1099 == null) {
-            if (other.income_1099 != null)
+        if (income1099 == null) {
+            if (other.income1099 != null)
                 return false;
-        } else if (!income_1099.equals(other.income_1099))
+        } else if (!income1099.equals(other.income1099))
             return false;
-        if (taxes_paid_w2 == null) {
-            if (other.taxes_paid_w2 != null)
+        if (taxesPaidW2 == null) {
+            if (other.taxesPaidW2 != null)
                 return false;
-        } else if (!taxes_paid_w2.equals(other.taxes_paid_w2))
+        } else if (!taxesPaidW2.equals(other.taxesPaidW2))
             return false;
-        if (taxes_paid_1099 == null) {
-            if (other.taxes_paid_1099 != null)
+        if (taxesPaid1099 == null) {
+            if (other.taxesPaid1099 != null)
                 return false;
-        } else if (!taxes_paid_1099.equals(other.taxes_paid_1099))
+        } else if (!taxesPaid1099.equals(other.taxesPaid1099))
             return false;
         if (employer == null) {
             if (other.employer != null)
                 return false;
         } else if (!employer.equals(other.employer))
             return false;
-        if (company_name == null) {
-            if (other.company_name != null)
+        if (companyName == null) {
+            if (other.companyName != null)
                 return false;
-        } else if (!company_name.equals(other.company_name))
+        } else if (!companyName.equals(other.companyName))
+            return false;
+        if (userInfo == null) {
+            if (other.userInfo != null)
+                return false;
+        } else if (!userInfo.equals(other.userInfo))
+            return false;
+        if (taxCalculations == null) {
+            if (other.taxCalculations != null)
+                return false;
+        } else if (!taxCalculations.equals(other.taxCalculations))
             return false;
         return true;
     }
-
 }
