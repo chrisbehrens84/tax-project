@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User { // One User can have one Taxpayer infromation
+public class AppUser { // One User can have one Taxpayer infromation
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,14 +25,14 @@ public class User { // One User can have one Taxpayer infromation
     @Column(name = "password")
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_info_id", unique = true)
     private UserInfo userInfo;
 
-    public User() {
+    public AppUser() {
     }
 
-    public User(String email, String password, UserInfo userInfo) {
+    public AppUser(String email, String password, UserInfo userInfo) {
         this.email = email;
         this.password = password;
         this.userInfo = userInfo;
@@ -89,7 +89,7 @@ public class User { // One User can have one Taxpayer infromation
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        AppUser other = (AppUser) obj;
         if (userId == null) {
             if (other.userId != null)
                 return false;
