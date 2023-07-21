@@ -1,92 +1,83 @@
 package com.skillstorm.taxappbackend.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "User")
+@Table(name = "users")
 public class User { // One User can have one Taxpayer infromation
 
-    @Id // primary key
-    @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // SPECIFY AUTO INCREMENT
-    private Integer user_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long userId;
 
-    @Column(name = "user_email")
-    private String user_email;
+    @Column(name = "email")
+    private String email;
 
-    @Column(name = "user_password")
-    private String user_password;
+    @Column(name = "password")
+    private String password;
 
-    @Column(name = "isSelfemployed")
-    private String isSelfemployed;
-
-    @Column(name = "isEmployee")
-    private String isEmployee;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_info_id", unique = true)
+    private UserInfo userInfo;
 
     public User() {
     }
 
-    public User(String user_email, String user_password, String isSelfemployed, String isEmployee) {
-        this.user_email = user_email;
-        this.user_password = user_password;
-        this.isSelfemployed = isSelfemployed;
-        this.isEmployee = isEmployee;
+    public User(String email, String password, UserInfo userInfo) {
+        this.email = email;
+        this.password = password;
+        this.userInfo = userInfo;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public String getUser_email() {
-        return user_email;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUser_email(String user_email) {
-        this.user_email = user_email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getUser_password() {
-        return user_password;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUser_password(String user_password) {
-        this.user_password = user_password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getIsSelfemployed() {
-        return isSelfemployed;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
-    public void setIsSelfemployed(String isSelfemployed) {
-        this.isSelfemployed = isSelfemployed;
-    }
-
-    public String getIsEmployee() {
-        return isEmployee;
-    }
-
-    public void setIsEmployee(String isEmployee) {
-        this.isEmployee = isEmployee;
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
-        result = prime * result + ((user_email == null) ? 0 : user_email.hashCode());
-        result = prime * result + ((user_password == null) ? 0 : user_password.hashCode());
-        result = prime * result + ((isSelfemployed == null) ? 0 : isSelfemployed.hashCode());
-        result = prime * result + ((isEmployee == null) ? 0 : isEmployee.hashCode());
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((userInfo == null) ? 0 : userInfo.hashCode());
         return result;
     }
 
@@ -99,30 +90,25 @@ public class User { // One User can have one Taxpayer infromation
         if (getClass() != obj.getClass())
             return false;
         User other = (User) obj;
-        if (user_id == null) {
-            if (other.user_id != null)
+        if (userId == null) {
+            if (other.userId != null)
                 return false;
-        } else if (!user_id.equals(other.user_id))
+        } else if (!userId.equals(other.userId))
             return false;
-        if (user_email == null) {
-            if (other.user_email != null)
+        if (email == null) {
+            if (other.email != null)
                 return false;
-        } else if (!user_email.equals(other.user_email))
+        } else if (!email.equals(other.email))
             return false;
-        if (user_password == null) {
-            if (other.user_password != null)
+        if (password == null) {
+            if (other.password != null)
                 return false;
-        } else if (!user_password.equals(other.user_password))
+        } else if (!password.equals(other.password))
             return false;
-        if (isSelfemployed == null) {
-            if (other.isSelfemployed != null)
+        if (userInfo == null) {
+            if (other.userInfo != null)
                 return false;
-        } else if (!isSelfemployed.equals(other.isSelfemployed))
-            return false;
-        if (isEmployee == null) {
-            if (other.isEmployee != null)
-                return false;
-        } else if (!isEmployee.equals(other.isEmployee))
+        } else if (!userInfo.equals(other.userInfo))
             return false;
         return true;
     }

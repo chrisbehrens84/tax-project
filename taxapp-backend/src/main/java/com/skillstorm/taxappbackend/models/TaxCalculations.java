@@ -6,21 +6,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Tax_calculations")
+@Table(name = "taxCalculation")
 public class TaxCalculations {
 
     @Id
-    @Column(name = "calculation_id")
+    @Column(name = "taxCalculation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer calculationID;
-
-    @ManyToOne
-    @JoinColumn(name = "taxpayer_id", referencedColumnName = "taxpayer_id")
-    private TaxPayerInformation taxpayerInformation;
+    private Long taxCalculationID;
 
     // The total income is calculated by summing up all sources of income, including
     // W-2 income and 1099 income.
@@ -31,39 +27,38 @@ public class TaxCalculations {
     @Column(name = "total_deductions")
     private Double totalDeductions;
 
-    // subtracting the total deductions from the total income.
-    @Column(name = "taxable_income")
-    private Double taxableIncome;
-    // the net amount of tax that the taxpayer either owes
-    @Column(name = "tax_amount")
-    private Double finalTaxAmount;
+    @Column(name = "total_credits")
+    private Long totalCredits;
+
+    @Column(name = "total_paid")
+    private Long totalPaid;
+
+    @Column(name = "marginal_tax_rate")
+    private Long marginalTaxRate;
+
+    @OneToOne
+    @JoinColumn(name = "taxInformationId", unique = true)
+    private TaxInformation taxInformation;
 
     public TaxCalculations() {
     }
 
-    public TaxCalculations(TaxPayerInformation taxpayerInformation, Double totalIncome, Double totalDeductions,
-            Double taxableIncome, Double finalTaxAmount) {
-        this.taxpayerInformation = taxpayerInformation;
+    public TaxCalculations(Double totalIncome, Double totalDeductions, Long totalCredits, Long totalPaid,
+            Long marginalTaxRate, TaxInformation taxInformation) {
         this.totalIncome = totalIncome;
         this.totalDeductions = totalDeductions;
-        this.taxableIncome = taxableIncome;
-        this.finalTaxAmount = finalTaxAmount;
+        this.totalCredits = totalCredits;
+        this.totalPaid = totalPaid;
+        this.marginalTaxRate = marginalTaxRate;
+        this.taxInformation = taxInformation;
     }
 
-    public Integer getCalculationID() {
-        return calculationID;
+    public Long getTaxCalculationID() {
+        return taxCalculationID;
     }
 
-    public void setCalculationID(Integer calculationID) {
-        this.calculationID = calculationID;
-    }
-
-    public TaxPayerInformation getTaxpayerInformation() {
-        return taxpayerInformation;
-    }
-
-    public void setTaxpayerInformation(TaxPayerInformation taxpayerInformation) {
-        this.taxpayerInformation = taxpayerInformation;
+    public void setTaxCalculationID(Long taxCalculationID) {
+        this.taxCalculationID = taxCalculationID;
     }
 
     public Double getTotalIncome() {
@@ -82,32 +77,49 @@ public class TaxCalculations {
         this.totalDeductions = totalDeductions;
     }
 
-    public Double getTaxableIncome() {
-        return taxableIncome;
+    public Long getTotalCredits() {
+        return totalCredits;
     }
 
-    public void setTaxableIncome(Double taxableIncome) {
-        this.taxableIncome = taxableIncome;
+    public void setTotalCredits(Long totalCredits) {
+        this.totalCredits = totalCredits;
     }
 
-    public Double getFinalTaxAmount() {
-        return finalTaxAmount;
+    public Long getTotalPaid() {
+        return totalPaid;
     }
 
-    public void setFinalTaxAmount(Double finalTaxAmount) {
-        this.finalTaxAmount = finalTaxAmount;
+    public void setTotalPaid(Long totalPaid) {
+        this.totalPaid = totalPaid;
+    }
+
+    public Long getMarginalTaxRate() {
+        return marginalTaxRate;
+    }
+
+    public void setMarginalTaxRate(Long marginalTaxRate) {
+        this.marginalTaxRate = marginalTaxRate;
+    }
+
+    public TaxInformation getTaxInformation() {
+        return taxInformation;
+    }
+
+    public void setTaxInformation(TaxInformation taxInformation) {
+        this.taxInformation = taxInformation;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((calculationID == null) ? 0 : calculationID.hashCode());
-        result = prime * result + ((taxpayerInformation == null) ? 0 : taxpayerInformation.hashCode());
+        result = prime * result + ((taxCalculationID == null) ? 0 : taxCalculationID.hashCode());
         result = prime * result + ((totalIncome == null) ? 0 : totalIncome.hashCode());
         result = prime * result + ((totalDeductions == null) ? 0 : totalDeductions.hashCode());
-        result = prime * result + ((taxableIncome == null) ? 0 : taxableIncome.hashCode());
-        result = prime * result + ((finalTaxAmount == null) ? 0 : finalTaxAmount.hashCode());
+        result = prime * result + ((totalCredits == null) ? 0 : totalCredits.hashCode());
+        result = prime * result + ((totalPaid == null) ? 0 : totalPaid.hashCode());
+        result = prime * result + ((marginalTaxRate == null) ? 0 : marginalTaxRate.hashCode());
+        result = prime * result + ((taxInformation == null) ? 0 : taxInformation.hashCode());
         return result;
     }
 
@@ -120,15 +132,10 @@ public class TaxCalculations {
         if (getClass() != obj.getClass())
             return false;
         TaxCalculations other = (TaxCalculations) obj;
-        if (calculationID == null) {
-            if (other.calculationID != null)
+        if (taxCalculationID == null) {
+            if (other.taxCalculationID != null)
                 return false;
-        } else if (!calculationID.equals(other.calculationID))
-            return false;
-        if (taxpayerInformation == null) {
-            if (other.taxpayerInformation != null)
-                return false;
-        } else if (!taxpayerInformation.equals(other.taxpayerInformation))
+        } else if (!taxCalculationID.equals(other.taxCalculationID))
             return false;
         if (totalIncome == null) {
             if (other.totalIncome != null)
@@ -140,15 +147,25 @@ public class TaxCalculations {
                 return false;
         } else if (!totalDeductions.equals(other.totalDeductions))
             return false;
-        if (taxableIncome == null) {
-            if (other.taxableIncome != null)
+        if (totalCredits == null) {
+            if (other.totalCredits != null)
                 return false;
-        } else if (!taxableIncome.equals(other.taxableIncome))
+        } else if (!totalCredits.equals(other.totalCredits))
             return false;
-        if (finalTaxAmount == null) {
-            if (other.finalTaxAmount != null)
+        if (totalPaid == null) {
+            if (other.totalPaid != null)
                 return false;
-        } else if (!finalTaxAmount.equals(other.finalTaxAmount))
+        } else if (!totalPaid.equals(other.totalPaid))
+            return false;
+        if (marginalTaxRate == null) {
+            if (other.marginalTaxRate != null)
+                return false;
+        } else if (!marginalTaxRate.equals(other.marginalTaxRate))
+            return false;
+        if (taxInformation == null) {
+            if (other.taxInformation != null)
+                return false;
+        } else if (!taxInformation.equals(other.taxInformation))
             return false;
         return true;
     }
