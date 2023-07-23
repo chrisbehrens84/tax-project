@@ -62,4 +62,14 @@ public class AppUserService {
         return 0;
     }
 
+    public int deleteUser(AppUser user) {
+        Optional<AppUser> existingUser = AppUserRepository.findById(user.getUserId());
+        if (existingUser.isPresent()) {
+            AppUserRepository.delete(user);
+            return 1;
+        } else {
+            throw new EntityNotFoundException("No user found with that information");
+        }
+    }
+
 }
