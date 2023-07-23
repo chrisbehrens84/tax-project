@@ -32,6 +32,11 @@ public class AppUser { // One User can have one Taxpayer infromation
     public AppUser() {
     }
 
+    public AppUser(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     public AppUser(String email, String password, UserInfo userInfo) {
         this.email = email;
         this.password = password;

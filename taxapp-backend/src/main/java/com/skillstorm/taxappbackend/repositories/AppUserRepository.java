@@ -11,4 +11,6 @@ import com.skillstorm.taxappbackend.models.AppUser;
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     public Optional<AppUser> findById(Long id);
+
+    public Optional<AppUser> findByEmail(String email);
 }

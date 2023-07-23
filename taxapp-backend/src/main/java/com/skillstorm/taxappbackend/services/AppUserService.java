@@ -27,12 +27,20 @@ public class AppUserService {
 
     public AppUser findUserById(Long id) {
         Optional<AppUser> user = AppUserRepository.findById(id);
-
         if (user.isPresent()) {
             return user.get();
         } else {
             throw new EntityNotFoundException("No user found with id: " + id);
         }
+    }
+
+    public AppUser createUser(AppUser user) {
+        Optional<AppUser> existingUser = AppUserRepository.findByEmail(user.getEmail());
+        if (existingUser.isPresent()) {
+            throw new EntityNotFoundException("Email: " + user.getEmail() + " already in use");
+        }
+        System.out.println(user.getEmail() + " " + user.getPassword());
+        return AppUserRepository.save(user);
     }
 
 }
