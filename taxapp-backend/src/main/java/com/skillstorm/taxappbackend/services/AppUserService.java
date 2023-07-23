@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,24 @@ public class AppUserService {
         }
         System.out.println(user.getEmail() + " " + user.getPassword());
         return AppUserRepository.save(user);
+    }
+
+    @Transactional
+    public int updateUser(AppUser user, String email, String password) {
+        Optional<AppUser> existingUser = AppUserRepository.findById(user.getUserId());
+
+        if (existingUser.isPresent()) {
+            AppUser updatedUser = existingUser.get();
+            if (email != null) {
+                updatedUser.setEmail(email);
+            }
+            if (password != null) {
+                updatedUser.setPassword(password);
+            }
+            AppUserRepository.save(updatedUser);
+            return 1;
+        }
+        return 0;
     }
 
 }

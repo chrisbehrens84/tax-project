@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skillstorm.taxappbackend.models.AppUser;
@@ -38,9 +41,20 @@ public class AppUserController {
     }
 
     /* Post Mappings */
+
     @PostMapping("/create")
     public ResponseEntity<AppUser> createUser(AppUser user) {
         AppUser newUser = appUserService.createUser(user);
         return new ResponseEntity<AppUser>(newUser, HttpStatus.CREATED);
+    }
+
+    /* Put Mappings */
+
+    @PutMapping("/user/update")
+    public ResponseEntity<Integer> updateUser(@RequestBody AppUser user,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String password) {
+        int updated = appUserService.updateUser(user, email, password);
+        return new ResponseEntity<Integer>(updated, HttpStatus.OK);
     }
 }
