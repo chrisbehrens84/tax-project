@@ -1,6 +1,7 @@
 package com.skillstorm.taxappbackend.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -21,6 +22,16 @@ public class AppUserService {
             return AppUserRepository.findAll();
         } catch (Exception e) {
             throw new EntityNotFoundException("No users found");
+        }
+    }
+
+    public AppUser findUserById(Long id) {
+        Optional<AppUser> user = AppUserRepository.findById(id);
+
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new EntityNotFoundException("No user found with id: " + id);
         }
     }
 

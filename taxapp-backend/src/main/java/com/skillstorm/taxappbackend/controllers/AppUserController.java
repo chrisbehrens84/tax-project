@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,10 +22,18 @@ public class AppUserController {
     @Autowired
     AppUserService appUserService;
 
+    /* Get Mappings */
+
     @GetMapping
     public ResponseEntity<List<AppUser>> getAllUsers() {
         List<AppUser> users = appUserService.findAllUsers();
-        System.out.println("==========" + users + "=============================");
         return new ResponseEntity<List<AppUser>>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
+        AppUser user = appUserService.findUserById(id);
+        System.out.println("testing ================================");
+        return new ResponseEntity<AppUser>(user, HttpStatus.OK);
     }
 }
