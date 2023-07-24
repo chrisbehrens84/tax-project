@@ -1,5 +1,6 @@
 package com.skillstorm.taxappbackend.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "userInfo")
@@ -44,10 +47,12 @@ public class UserInfo {
     private Long ssn;
 
     @OneToOne
+    @JsonIgnoreProperties("userInfo")
     @JoinColumn(name = "userId", unique = true)
     private AppUser appUser;
 
     @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("userInfo")
     private List<TaxInformation> taxInformationList;
 
     public UserInfo() {
