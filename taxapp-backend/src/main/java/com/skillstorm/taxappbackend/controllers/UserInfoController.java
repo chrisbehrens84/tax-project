@@ -40,22 +40,23 @@ public class UserInfoController {
     public ResponseEntity<UserInfo> getUserInfoByAppUserId(@PathVariable Long appUserId) {
         UserInfo userInfo = userInfoService.getUserInfoByAppUserId(appUserId);
         if (userInfo != null) {
-            return ResponseEntity.ok(userInfo);
+            return new ResponseEntity<UserInfo>(userInfo, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-
+    // need to get the AppuserId and post with this
     @PostMapping("/{appUserId}")
-    public ResponseEntity<UserInfo> createUserInfo(@RequestBody UserInfo userInfo, @RequestParam Long userId) {
-        AppUser appUser = appUserService.findUserById(userId);
+    public ResponseEntity<UserInfo> createUserInfo(@RequestBody UserInfo userInfo, @PathVariable Long appUserId) {
+        AppUser appUser = appUserService.findUserById(appUserId);
+        System.out.println(appUser);
         if (appUser == null) {
-            return ResponseEntity.badRequest().build(); // Return bad request if the AppUser does not exist
+            return ResponseEntity.notFound().build(); // Return bad request if the AppUser does not exist
         }
 
         userInfo.setAppUser(appUser); // Associate the AppUser with the UserInfo
-
+       System.out.println(userInfo);
         UserInfo createdUserInfo = userInfoService.createUserInfo(userInfo);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUserInfo);
     }
@@ -69,14 +70,26 @@ public class UserInfoController {
             return ResponseEntity.notFound().build();
         }
     }
+    //delete mapping
+    // @DeleteMapping("/delete")
+    // public ResponseEntity<Integer> deleteUserInfo(@RequestBody UserInfo userInfo) {
+    //     int deleted = userInfoService.deleteUserInfo(userInfo);
+    //     return new ResponseEntity<Integer>(deleted, HttpStatus.OK);
+    // }
 
     @DeleteMapping("/{userInfoId}")
-    public ResponseEntity<Void> deleteUserInfo(@PathVariable Long userInfoId) {
-        boolean deleted = userInfoService.deleteUserInfo(userInfoId);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<String> deleteUserInfo(@PathVariable Long userInfoId) {
+        try {
+            boolean isDeleted = userInfoService.deleteUserInfo(userInfoId);
+            if (isDeleted) {
+                return ResponseEntity.ok("UserInfo with ID " + userInfoId + " has been deleted.");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete UserInfo.");
         }
     }
+
+
 }

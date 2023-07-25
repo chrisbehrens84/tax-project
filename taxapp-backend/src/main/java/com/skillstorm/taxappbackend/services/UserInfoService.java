@@ -1,6 +1,10 @@
 package com.skillstorm.taxappbackend.services;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,11 +43,21 @@ public class UserInfoService {
         return null; // If userInfoId does not exist, return null
     }
 
+    @Transactional
     public boolean deleteUserInfo(Long userInfoId) {
-        if (userInfoRepository.existsById(userInfoId)) {
-            userInfoRepository.deleteById(userInfoId);
-            return true;
+        try {
+            Optional<UserInfo> userInfoOptional = userInfoRepository.findById(userInfoId);
+            if (userInfoOptional.isPresent()) {
+                userInfoRepository.deleteById(userInfoId);
+                System.out.println(userInfoId);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            // Handle any exceptions or log errors if necessary
+            return false;
         }
-        return false; // If userInfoId does not exist, return false
     }
+  
 }
