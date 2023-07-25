@@ -27,6 +27,7 @@ public class UserInfoService {
     }
 
     public UserInfo createUserInfo(UserInfo userInfo) {
+        
         return userInfoRepository.save(userInfo);
     }
 
@@ -36,7 +37,11 @@ public class UserInfoService {
             // Update the fields of existingUserInfo with the fields from userInfo
             existingUserInfo.setFirstName(userInfo.getFirstName());
             existingUserInfo.setLastName(userInfo.getLastName());
-            // Set other fields as needed...
+            existingUserInfo.setAddress(userInfo.getAddress());
+            existingUserInfo.setCity(userInfo.getCity());
+            existingUserInfo.setZipcode(userInfo.getZipcode());
+            existingUserInfo.setSsn(userInfo.getSsn());
+            
             
             return userInfoRepository.save(existingUserInfo);
         }

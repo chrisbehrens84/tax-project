@@ -58,9 +58,8 @@ public class UserInfo {
     public UserInfo() {
     }
 
-    public UserInfo(Long userInfoId, String firstName, String lastName, String address, String city, String state,
+    public UserInfo(String firstName, String lastName, String address, String city, String state,
         Long zipcode, Long ssn, AppUser appUser, List<TaxInformation> taxInformationList) {
-      this.userInfoId = userInfoId;
       this.firstName = firstName;
       this.lastName = lastName;
       this.address = address;

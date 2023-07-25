@@ -30,12 +30,14 @@ public class UserInfoController {
     UserInfoService userInfoService;
     AppUserService appUserService;
 
+    //Get All
     @GetMapping
     public ResponseEntity<List<UserInfo>> getAllUserInfo() {
         List<UserInfo> allUserInfo = userInfoService.getAllUserInfo();
         return new ResponseEntity<List<UserInfo>>(allUserInfo,HttpStatus.OK);
     }
 
+    //Get by Id
     @GetMapping("/{appUserId}")
     public ResponseEntity<UserInfo> getUserInfoByAppUserId(@PathVariable Long appUserId) {
         UserInfo userInfo = userInfoService.getUserInfoByAppUserId(appUserId);
@@ -46,22 +48,15 @@ public class UserInfoController {
         }
     }
 
-    // need to get the AppuserId and post with this
-    @PostMapping("/{appUserId}")
-    public ResponseEntity<UserInfo> createUserInfo(@RequestBody UserInfo userInfo, @PathVariable Long appUserId) {
-        AppUser appUser = appUserService.findUserById(appUserId);
-        System.out.println(appUser);
-        if (appUser == null) {
-            return ResponseEntity.notFound().build(); // Return bad request if the AppUser does not exist
-        }
-
-        userInfo.setAppUser(appUser); // Associate the AppUser with the UserInfo
-       System.out.println(userInfo);
-        UserInfo createdUserInfo = userInfoService.createUserInfo(userInfo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUserInfo);
+    // Post 
+    @PostMapping("/create")
+    public ResponseEntity<UserInfo> createUser(@RequestBody UserInfo userInfo) {
+        UserInfo newUserInfo = userInfoService.createUserInfo(userInfo);
+        return new ResponseEntity<UserInfo>(newUserInfo, HttpStatus.CREATED);
     }
-
-    @PutMapping("/{userInfoId}")
+    
+    //Put
+    @PutMapping("/update/{userInfoId}")
     public ResponseEntity<UserInfo> updateUserInfo(@PathVariable Long userInfoId, @RequestBody UserInfo userInfo) {
         UserInfo updatedUserInfo = userInfoService.updateUserInfo(userInfoId, userInfo);
         if (updatedUserInfo != null) {
@@ -70,13 +65,8 @@ public class UserInfoController {
             return ResponseEntity.notFound().build();
         }
     }
-    //delete mapping
-    // @DeleteMapping("/delete")
-    // public ResponseEntity<Integer> deleteUserInfo(@RequestBody UserInfo userInfo) {
-    //     int deleted = userInfoService.deleteUserInfo(userInfo);
-    //     return new ResponseEntity<Integer>(deleted, HttpStatus.OK);
-    // }
-
+   
+    //Delete
     @DeleteMapping("/{userInfoId}")
     public ResponseEntity<String> deleteUserInfo(@PathVariable Long userInfoId) {
         try {
