@@ -25,7 +25,7 @@ public class AppUser { // One User can have one Taxpayer infromation
     @Column(name = "password")
     private String password;
 
-    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "appUser", orphanRemoval = true)
     @JoinColumn(name = "user_info_id", unique = true)
     private UserInfo userInfo;
 
