@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skillstorm.taxappbackend.models.UserInfo;
+import com.skillstorm.taxappbackend.repositories.AppUserRepository;
 import com.skillstorm.taxappbackend.repositories.UserInfoRepository;
 
 @Service
@@ -17,6 +18,7 @@ public class UserInfoService {
 
     @Autowired
     private UserInfoRepository userInfoRepository;
+    private AppUserRepository appUserRepository;
 
     public UserInfo getUserInfoByAppUserId(Long appUserId) {
       return userInfoRepository.findByAppUserUserId(appUserId);
@@ -27,20 +29,41 @@ public class UserInfoService {
     }
 
     public UserInfo createUserInfo(UserInfo userInfo) {
-        
-        return userInfoRepository.save(userInfo);
+        try {
+            return userInfoRepository.save(userInfo);
+        } catch(Exception e){
+            throw new EntityNotFoundException("User Info Aleady Exists");
+        }
     }
 
     public UserInfo updateUserInfo(Long userInfoId, UserInfo userInfo) {
         UserInfo existingUserInfo = userInfoRepository.findById(userInfoId).orElse(null);
         if (existingUserInfo != null) {
             // Update the fields of existingUserInfo with the fields from userInfo
-            existingUserInfo.setFirstName(userInfo.getFirstName());
-            existingUserInfo.setLastName(userInfo.getLastName());
-            existingUserInfo.setAddress(userInfo.getAddress());
-            existingUserInfo.setCity(userInfo.getCity());
-            existingUserInfo.setZipcode(userInfo.getZipcode());
-            existingUserInfo.setSsn(userInfo.getSsn());
+            if(userInfo.getFirstName() !=null){
+                existingUserInfo.setFirstName(userInfo.getFirstName());
+            }
+            
+            if(userInfo.getLastName() !=null){
+                existingUserInfo.setLastName(userInfo.getLastName());
+            }
+
+            if(userInfo.getAddress() !=null){
+                 existingUserInfo.setAddress(userInfo.getAddress());
+            }
+
+            if(userInfo.getCity() !=null){
+                existingUserInfo.setCity(userInfo.getCity());
+            }
+
+            if(userInfo.getZipcode() !=null){
+                existingUserInfo.setZipcode(userInfo.getZipcode());
+            }
+
+            if(userInfo.getSsn() !=null){
+                existingUserInfo.setSsn(userInfo.getSsn());
+            }
+            
             
             
             return userInfoRepository.save(existingUserInfo);

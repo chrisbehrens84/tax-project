@@ -51,6 +51,7 @@ public class UserInfoController {
     // Post 
     @PostMapping("/create")
     public ResponseEntity<UserInfo> createUser(@RequestBody UserInfo userInfo) {
+
         UserInfo newUserInfo = userInfoService.createUserInfo(userInfo);
         return new ResponseEntity<UserInfo>(newUserInfo, HttpStatus.CREATED);
     }
