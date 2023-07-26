@@ -2,7 +2,6 @@ package com.skillstorm.taxappbackend.controllers;
 
 import java.util.List;
 
-import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skillstorm.taxappbackend.models.TaxInformation;
-import com.skillstorm.taxappbackend.models.UserInfo;
 import com.skillstorm.taxappbackend.services.TaxInformationService;
 
 @RestController
