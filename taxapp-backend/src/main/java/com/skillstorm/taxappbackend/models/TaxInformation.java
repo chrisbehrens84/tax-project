@@ -51,7 +51,7 @@ public class TaxInformation {
     private String companyName;
 
     @ManyToOne
-    @JoinColumn(name = "userInfo_Id")
+    @JoinColumn(name = "user_info_id")
     private UserInfo userInfo;
 
     @OneToOne(mappedBy = "taxInformation", cascade = CascadeType.ALL)
