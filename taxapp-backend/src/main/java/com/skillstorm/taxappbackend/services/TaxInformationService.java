@@ -6,10 +6,12 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
+import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skillstorm.taxappbackend.models.TaxInformation;
+import com.skillstorm.taxappbackend.models.UserInfo;
 import com.skillstorm.taxappbackend.repositories.TaxInformationRepository;
 
 @Service
@@ -72,6 +74,23 @@ public class TaxInformationService {
             if (companyName != null) {
                 taxInformationOptional.get().setCompanyName(companyName);
             }
+            return 1;
+        }
+        return 0;
+    }
+
+    public TaxInformation createTaxInformation(TaxInformation taxInformation) {
+        try {
+            return taxInformationRepository.save(taxInformation);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Tax Information Aleady Exists");
+        }
+    }
+
+    public int deleteTaxInformationById(Long id) {
+        Optional<TaxInformation> taxInformation = taxInformationRepository.findById(id);
+        if (taxInformation.isPresent()) {
+            taxInformationRepository.deleteById(id);
             return 1;
         }
         return 0;
