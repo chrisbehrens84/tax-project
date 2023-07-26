@@ -36,6 +36,12 @@ public class TaxCalculations {
     @Column(name = "marginal_tax_rate")
     private Long marginalTaxRate;
 
+    @Column(name = "reg_taxes")
+    private Long regTaxes;
+
+    @Column(name = "net_taxes")
+    private Long netTaxes;
+
     @OneToOne
     @JoinColumn(name = "taxInformationId", unique = true)
     private TaxInformation taxInformation;
@@ -44,12 +50,14 @@ public class TaxCalculations {
     }
 
     public TaxCalculations(Double totalIncome, Double totalDeductions, Long totalCredits, Long totalPaid,
-            Long marginalTaxRate, TaxInformation taxInformation) {
+            Long marginalTaxRate, Long regTaxes, Long netTaxes, TaxInformation taxInformation) {
         this.totalIncome = totalIncome;
         this.totalDeductions = totalDeductions;
         this.totalCredits = totalCredits;
         this.totalPaid = totalPaid;
         this.marginalTaxRate = marginalTaxRate;
+        this.regTaxes = regTaxes;
+        this.netTaxes = netTaxes;
         this.taxInformation = taxInformation;
     }
 
@@ -92,21 +100,39 @@ public class TaxCalculations {
     public void setTotalPaid(Long totalPaid) {
         this.totalPaid = totalPaid;
     }
-
+    
     public Long getMarginalTaxRate() {
         return marginalTaxRate;
     }
-
+    
     public void setMarginalTaxRate(Long marginalTaxRate) {
         this.marginalTaxRate = marginalTaxRate;
     }
-
+    
+    
+    
     public TaxInformation getTaxInformation() {
         return taxInformation;
     }
-
+    
     public void setTaxInformation(TaxInformation taxInformation) {
         this.taxInformation = taxInformation;
+    }
+    
+    public Long getNetTaxes() {
+        return netTaxes;
+    }
+
+    public void setNetTaxes(Long netTaxes) {
+        this.netTaxes = netTaxes;
+    }
+
+    public Long getRegTaxes() {
+        return regTaxes;
+    }
+
+    public void setRegTaxes(Long regTaxes) {
+        this.regTaxes = regTaxes;
     }
 
     @Override
@@ -119,6 +145,8 @@ public class TaxCalculations {
         result = prime * result + ((totalCredits == null) ? 0 : totalCredits.hashCode());
         result = prime * result + ((totalPaid == null) ? 0 : totalPaid.hashCode());
         result = prime * result + ((marginalTaxRate == null) ? 0 : marginalTaxRate.hashCode());
+        result = prime * result + ((regTaxes == null) ? 0 : regTaxes.hashCode());
+        result = prime * result + ((netTaxes == null) ? 0 : netTaxes.hashCode());
         result = prime * result + ((taxInformation == null) ? 0 : taxInformation.hashCode());
         return result;
     }
@@ -162,6 +190,16 @@ public class TaxCalculations {
                 return false;
         } else if (!marginalTaxRate.equals(other.marginalTaxRate))
             return false;
+        if (regTaxes == null) {
+            if (other.regTaxes != null)
+                return false;
+        } else if (!regTaxes.equals(other.regTaxes))
+            return false;
+        if (netTaxes == null) {
+            if (other.netTaxes != null)
+                return false;
+        } else if (!netTaxes.equals(other.netTaxes))
+            return false;
         if (taxInformation == null) {
             if (other.taxInformation != null)
                 return false;
@@ -169,5 +207,10 @@ public class TaxCalculations {
             return false;
         return true;
     }
+
+   
+
+    
+
 
 }
