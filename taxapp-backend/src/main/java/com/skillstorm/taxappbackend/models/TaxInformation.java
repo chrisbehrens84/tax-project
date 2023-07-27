@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "taxInfo")
 public class TaxInformation {
@@ -52,9 +54,11 @@ public class TaxInformation {
 
     @ManyToOne
     @JoinColumn(name = "userInfo_Id")
+    @JsonIgnoreProperties("taxInformation")
     private UserInfo userInfo;
 
     @OneToOne(mappedBy = "taxInformation", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("taxInformation")
     private TaxCalculations taxCalculations;
 
     public TaxInformation() {

@@ -1,9 +1,26 @@
 package com.skillstorm.taxappbackend.services;
 
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.skillstorm.taxappbackend.models.TaxCalculations;
+import com.skillstorm.taxappbackend.models.TaxInformation;
+import com.skillstorm.taxappbackend.repositories.TaxCalculationsRepository;
+import com.skillstorm.taxappbackend.repositories.TaxInformationRepository;
+
+@Service
 public class TaxCalculationsService {
+    
+    @Autowired
+    TaxCalculationsRepository taxCalculationsRepository;
+    TaxInformationRepository taxInformationRepository;
 
 
-
+     public TaxCalculations getTaxCalculationByTaxInfoId(Long taxInfoId) {
+        return taxCalculationsRepository.findByTaxInformationTaxInfoId(taxInfoId);
+    }
   //totalIncome
     //total from all w2's box 1
       // incomeW2 from TaxInformation
@@ -31,6 +48,14 @@ public class TaxCalculationsService {
      totalCredits = (numberOfDependendts * 2000)
   */
 
+
+
+  /* regTaxes
+       let 
+  
+  
+  */
+       
        
 
 }
