@@ -1,5 +1,5 @@
 package com.skillstorm.taxappbackend.models;
 
-public class TaxInformation {
+public class TaxCalcualtion {
   
 }
