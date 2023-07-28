@@ -1,5 +1,9 @@
 package com.skillstorm.taxappbackend.repositories;
 
-public class AppUserRepository {
-  
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import com.skillstorm.taxappbackend.models.AppUser;
+
+public interface AppUserRepository extends MongoRepository<AppUser, String> {
+    // Custom methods (if needed) can be added here
 }
