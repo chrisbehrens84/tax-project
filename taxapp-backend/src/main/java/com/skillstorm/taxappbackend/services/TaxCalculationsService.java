@@ -1,7 +1,5 @@
 package com.skillstorm.taxappbackend.services;
 
-
-public class TaxInformationService {
+public class TaxCalculationsService {
   
-
 }

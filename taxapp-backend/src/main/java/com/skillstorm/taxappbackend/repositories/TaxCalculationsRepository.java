@@ -1,5 +1,5 @@
 package com.skillstorm.taxappbackend.repositories;
 
-public class AppUserRepository {
+public class TaxCalculationsRepository {
   
 }
