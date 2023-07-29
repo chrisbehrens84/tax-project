@@ -75,12 +75,11 @@ public class TaxCalculationsService {
         }
     }
 
-    public TaxCalculations generateTaxCalculations(String taxInformationId) {
+    public TaxCalculations generateTaxCalculations(String taxInformationId, TaxCalculations taxCalculations) {
         // Get the TaxInformation by its ID
         Optional<TaxInformation> taxInformationOptional = taxInformationRepository.findById(taxInformationId);
 
         if (taxInformationOptional.isPresent()) {
-            TaxCalculations taxCalculations = new TaxCalculations();
             TaxInformation taxInformation = taxInformationOptional.get();
 
             // Calculate the information needed for tax calculations
