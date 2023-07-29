@@ -1,5 +1,5 @@
 package com.skillstorm.taxappbackend.controllers;
 
-public class TaxInformation {
+public class TaxCalculationsController {
   
 }

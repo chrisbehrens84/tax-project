@@ -21,7 +21,6 @@ public class AppUserController {
   
   @GetMapping
   public List<AppUser> getAllUsers() {
-    System.out.println("yo I am here");
     return appUserService.getAllUsers();
   }
   
@@ -51,7 +50,7 @@ public class AppUserController {
         }
     }
 
-    @DeleteMapping("/{id}")
+  @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(@PathVariable String id) {
         AppUser user = appUserService.getUserById(id);
         if (user != null) {
