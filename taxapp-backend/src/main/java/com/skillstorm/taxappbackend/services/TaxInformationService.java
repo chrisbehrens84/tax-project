@@ -3,6 +3,7 @@ package com.skillstorm.taxappbackend.services;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.skillstorm.taxappbackend.models.AppUser;
@@ -44,6 +45,29 @@ public class TaxInformationService {
         System.out.println("Found Tax Information: " + taxInformationList);
         
         return taxInformationList;
+    }
+
+    public TaxInformation updateTaxInformation(String taxInformationId, TaxInformation updatedTaxInformation) {
+        Optional<TaxInformation> existingTaxInformationOptional = taxInformationRepository.findById(taxInformationId);
+
+        if (existingTaxInformationOptional.isPresent()) {
+            TaxInformation existingTaxInformation = existingTaxInformationOptional.get();
+
+            // Update the fields with the new values
+            existingTaxInformation.setFilingStatus(updatedTaxInformation.getFilingStatus());
+            existingTaxInformation.setDependents(updatedTaxInformation.getDependents());
+            existingTaxInformation.setW2Wages(updatedTaxInformation.getW2Wages());
+            existingTaxInformation.setW2Withheld(updatedTaxInformation.getW2Withheld());
+            existingTaxInformation.setIsBlind(updatedTaxInformation.getIsBlind());
+            existingTaxInformation.setAge(updatedTaxInformation.getAge());
+            existingTaxInformation.setIncome1099(updatedTaxInformation.getIncome1099());
+            existingTaxInformation.setTaxPaid1099(updatedTaxInformation.getTaxPaid1099());
+
+            return taxInformationRepository.save(existingTaxInformation);
+        } else {
+            // Handle case where TaxInformation with given id doesn't exist
+            throw new RuntimeException("TaxInformation not found with ID: " + taxInformationId);
+        }
     }
 
     public void deleteTaxInformationById(String id) {

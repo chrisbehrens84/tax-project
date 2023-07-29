@@ -59,6 +59,12 @@ public class TaxInformationController {
         return taxInformationService.getTaxInformationByUserId(userId);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TaxInformation> updateTaxInformation(@PathVariable String id, @RequestBody TaxInformation updatedTaxInformation) {
+        TaxInformation updatedTaxInfo = taxInformationService.updateTaxInformation(id, updatedTaxInformation);
+        return new ResponseEntity<>(updatedTaxInfo, HttpStatus.OK);
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTaxInformationById(@PathVariable String id) {
         TaxInformation taxInfo = taxInformationService.getTaxInformationById(id);

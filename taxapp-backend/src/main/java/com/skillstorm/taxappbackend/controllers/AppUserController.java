@@ -21,7 +21,6 @@ public class AppUserController {
   
   @GetMapping
   public List<AppUser> getAllUsers() {
-    System.out.println("yo I am here");
     return appUserService.getAllUsers();
   }
   
