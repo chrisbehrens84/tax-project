@@ -81,7 +81,7 @@ public class TaxCalculationsService {
 
         if (taxInformationOptional.isPresent()) {
             TaxInformation taxInformation = taxInformationOptional.get();
-
+            taxCalculations.setTaxInformation(taxInformation);
             // Calculate the information needed for tax calculations
             Double taxableIncome = 0.0;
             Double netTaxes = 0.0;
@@ -192,12 +192,12 @@ public class TaxCalculationsService {
             // Calculate the final taxes
 
             if ((netTaxes - (dependents * 2000)) > (0 - (dependents * 1500))) {
-                netTaxes = (netTaxes - (dependents * 2000));
+                totalTaxWithCredits = (netTaxes - (dependents * 2000));
             } else {
-                netTaxes = (double) (0 - (dependents * 1500));
+                totalTaxWithCredits = (double) (0 - (dependents * 1500));
             }
 
-            totalTaxWithCredits = netTaxes - (dependents * 2000);
+            
             finalTaxes = totalTaxWithCredits - totalPaid;
 
             // Set the fields of the TaxCalculations

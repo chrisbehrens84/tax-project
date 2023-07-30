@@ -4,11 +4,14 @@ package com.skillstorm.taxappbackend.services;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.skillstorm.taxappbackend.models.AppUser;
+import com.skillstorm.taxappbackend.models.TaxCalculations;
 import com.skillstorm.taxappbackend.models.TaxInformation;
 import com.skillstorm.taxappbackend.repositories.AppUserRepository;
+import com.skillstorm.taxappbackend.repositories.TaxCalculationsRepository;
 import com.skillstorm.taxappbackend.repositories.TaxInformationRepository;
 
 import java.util.List;
@@ -22,11 +25,24 @@ public class TaxInformationService {
     TaxInformationRepository taxInformationRepository;
     @Autowired
     AppUserRepository appUserRepository;
+    @Autowired
+    TaxCalculationsRepository taxCalculationsRepository;
+    @Autowired
+    TaxCalculationsService taxCalculationsService;
     
 
     public TaxInformation saveTaxInformation(TaxInformation taxInformation) {
-        return taxInformationRepository.save(taxInformation);
+         taxInformationRepository.save(taxInformation);
+         callCreateTaxCalculations(taxInformation.getId());
+         return taxInformation;
     }
+
+    public void callCreateTaxCalculations(String id){
+        System.out.println(id);
+        TaxCalculations taxCalculations = new TaxCalculations();
+        taxCalculationsService.generateTaxCalculations(id, taxCalculations);
+    }
+
 
     public List<TaxInformation> getAllTaxInformation() {
         return taxInformationRepository.findAll();
@@ -63,6 +79,15 @@ public class TaxInformationService {
             existingTaxInformation.setIncome1099(updatedTaxInformation.getIncome1099());
             existingTaxInformation.setTaxPaid1099(updatedTaxInformation.getTaxPaid1099());
 
+            //******where we need to delete/recreate taxCalculations or update the taxCalculations*****************
+
+            ResponseEntity<TaxCalculations> taxCalculations = taxCalculationsService
+                .getTaxCalculationsByTaxInformationId(taxInformationId);
+            TaxCalculations taxCalculationsBody = taxCalculations.getBody();
+            taxCalculationsService.deleteTaxCalculationsById(taxCalculationsBody.getId());
+
+            callCreateTaxCalculations(taxInformationId);
+
             return taxInformationRepository.save(existingTaxInformation);
         } else {
             // Handle case where TaxInformation with given id doesn't exist
@@ -70,7 +95,13 @@ public class TaxInformationService {
         }
     }
 
+
     public void deleteTaxInformationById(String id) {
+        ResponseEntity<TaxCalculations> taxCalculations = taxCalculationsService
+                .getTaxCalculationsByTaxInformationId(id);
+        TaxCalculations taxCalculationsBody = taxCalculations.getBody();
+        taxCalculationsService.deleteTaxCalculationsById(taxCalculationsBody.getId());
         taxInformationRepository.deleteById(id);
     }
+
 }
