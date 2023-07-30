@@ -81,7 +81,7 @@ public class TaxCalculationsService {
 
         if (taxInformationOptional.isPresent()) {
             TaxInformation taxInformation = taxInformationOptional.get();
-
+            taxCalculations.setTaxInformation(taxInformation);
             // Calculate the information needed for tax calculations
             Double taxableIncome = 0.0;
             Double netTaxes = 0.0;
