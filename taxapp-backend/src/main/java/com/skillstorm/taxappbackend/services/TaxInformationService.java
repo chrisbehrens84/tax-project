@@ -81,7 +81,12 @@ public class TaxInformationService {
 
             //******where we need to delete/recreate taxCalculations or update the taxCalculations*****************
 
+            ResponseEntity<TaxCalculations> taxCalculations = taxCalculationsService
+                .getTaxCalculationsByTaxInformationId(taxInformationId);
+            TaxCalculations taxCalculationsBody = taxCalculations.getBody();
+            taxCalculationsService.deleteTaxCalculationsById(taxCalculationsBody.getId());
 
+            callCreateTaxCalculations(taxInformationId);
 
             return taxInformationRepository.save(existingTaxInformation);
         } else {
