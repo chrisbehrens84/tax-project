@@ -11,16 +11,19 @@ import java.util.Optional;
 
 @Service
 public class AppUserService {
-     
+
     @Autowired
     AppUserRepository appUserRepository;
 
-
     public AppUser createUser(String email, String password) {
-        AppUser user = new AppUser();
-        user.setEmail(email);
-        user.setPassword(password);
-        return appUserRepository.save(user);
+        if (!emailExists(email)) {
+            AppUser user = new AppUser();
+            user.setEmail(email);
+            user.setPassword(password);
+            return appUserRepository.save(user);
+        } else {
+            throw new RuntimeException("Email already exists" + email);
+        }
     }
 
     public AppUser updateUser(String id, AppUser updatedUser) {
@@ -53,5 +56,9 @@ public class AppUserService {
     public void deleteUserById(String id) {
         appUserRepository.deleteById(id);
     }
-}
 
+    public boolean emailExists(String email) {
+        return appUserRepository.existsByEmail(email);
+    }
+    // update
+}
