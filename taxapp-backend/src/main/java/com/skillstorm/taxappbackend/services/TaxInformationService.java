@@ -53,9 +53,6 @@ public class TaxInformationService {
     }
 
     public List<TaxInformation> getTaxInformationByUserId(String userId) {
-        ObjectId userIdObject = new ObjectId(userId);
-        System.out.println("User ID String: " + userId);
-        System.out.println("User ID ObjectId: " + userIdObject);
         
         List<TaxInformation> taxInformationList = taxInformationRepository.findByUser_Id(userId);
         System.out.println("Found Tax Information: " + taxInformationList);
