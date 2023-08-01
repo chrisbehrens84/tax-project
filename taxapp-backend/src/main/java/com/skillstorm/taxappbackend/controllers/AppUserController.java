@@ -34,6 +34,7 @@ public class AppUserController {
     }
   }
   
+  //User Signs up
   @PostMapping
   public ResponseEntity<AppUser> createUser(@RequestParam String email, @RequestParam String password) {
     AppUser user = appUserService.createUser(email, password);

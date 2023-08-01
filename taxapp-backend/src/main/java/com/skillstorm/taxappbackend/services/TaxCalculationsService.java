@@ -146,7 +146,7 @@ public class TaxCalculationsService {
             taxableIncome += totalIncome - deductions;
 
             // Calculate the net taxes
-            if (filingStatus.equals("single") && taxableIncome >= 578128) {
+            if (filingStatus.equals("single") && taxableIncome >= 578125) {
                 netTaxes += (174238 + ((taxableIncome - 578125) * .37));
 
             } else if (filingStatus.equals("single") && taxableIncome >= 231250) {
@@ -159,31 +159,31 @@ public class TaxCalculationsService {
                 netTaxes += (16290 + ((taxableIncome - 95375) * .24));
 
             } else if (filingStatus == "single" && taxableIncome >= 44725) {
-                netTaxes += (5147 + ((taxableIncome - 44727) * .22));
+                netTaxes += (5147 + ((taxableIncome - 44725) * .22));
 
             } else if (filingStatus == "single" && taxableIncome >= 11000) {
-                netTaxes += (1100 + ((taxableIncome - 44727) * .12));
+                netTaxes += (1100 + ((taxableIncome - 11000) * .12));
 
             } else if (filingStatus == "single" && taxableIncome >= 0) {
                 netTaxes += (taxableIncome * .1);
 
             } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 693750) {
-                netTaxes += (183132 + ((taxableIncome - 578125) * .37));
+                netTaxes += (183132 + ((taxableIncome - 693750) * .37));
 
             } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 462500) {
                 netTaxes += (102195 + ((taxableIncome - 462500) * .35));
 
             } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 364200) {
-                netTaxes += (70739 + ((taxableIncome - 182100) * .32));
+                netTaxes += (70739 + ((taxableIncome - 364200) * .32));
 
             } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 190750) {
-                netTaxes += (32580 + ((taxableIncome - 95375) * .24));
+                netTaxes += (32580 + ((taxableIncome - 190750) * .24));
 
             } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 89450) {
-                netTaxes += (10294 + ((taxableIncome - 44727) * .22));
+                netTaxes += (10294 + ((taxableIncome - 89450) * .22));
 
             } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 22000) {
-                netTaxes += (8094 + ((taxableIncome - 44727) * .12));
+                netTaxes += (8094 + ((taxableIncome - 22000) * .12));
 
             } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 0) {
                 netTaxes += (taxableIncome * .1);
