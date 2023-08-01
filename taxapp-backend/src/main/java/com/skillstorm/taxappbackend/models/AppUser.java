@@ -119,6 +119,13 @@ public class AppUser {
     public AppUser() {
     }
 
+    
+
+    public AppUser(String email, String password) {
+      this.email = email;
+      this.password = password;
+    }
+
 
     public AppUser(String email, String password, String firstName, String lastName, Integer ssn, String address,
         String city, Integer zip) {
