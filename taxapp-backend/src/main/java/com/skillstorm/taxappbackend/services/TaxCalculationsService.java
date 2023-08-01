@@ -90,6 +90,7 @@ public class TaxCalculationsService {
             Double deductions = 0.0;
             Double totalTaxWithCredits = 0.0;
             Double finalTaxes = 0.0;
+            Integer marginalTaxRate = 0;
 
             // Get the fields from the TaxInformation
             String filingStatus;
@@ -128,65 +129,79 @@ public class TaxCalculationsService {
             totalPaid += w2Withheld + taxPaid1099;
 
             // Calculate the deductions
-            if (filingStatus.equals("single") && (age >= 65 && isBlind)) {
+            if (filingStatus.equals("Single") && (age >= 65 && isBlind)) {
                 deductions += 17550;
-            } else if (filingStatus.equals("single") && (age >= 65 || isBlind)) {
+            } else if (filingStatus.equals("Single") && (age >= 65 || isBlind)) {
                 deductions += 15700;
                 // todo change to .equals
-            } else if (filingStatus == "single") {
+            } else if (filingStatus == "Single") {
                 deductions += 13850;
-            } else if (filingStatus == "Married Filing Jointly" && age >= 65 && isBlind) {
+            } else if (filingStatus == "Married filing jointly" && age >= 65 && isBlind) {
                 deductions += 30700;
-            } else if (filingStatus == "Married Filing Jointly" && (age >= 65 || isBlind)) {
+            } else if (filingStatus == "Married filing jointly" && (age >= 65 || isBlind)) {
                 deductions += 28500;
-            } else if (filingStatus == "Married Filing Jointly") {
+            } else if (filingStatus == "Married filing jointly") {
                 deductions += 27700;
             }
             // Calculate the taxable income
             taxableIncome += totalIncome - deductions;
 
             // Calculate the net taxes
-            if (filingStatus.equals("single") && taxableIncome >= 578125) {
+            if (filingStatus.equals("Single") && taxableIncome >= 578125) {
                 netTaxes += (174238 + ((taxableIncome - 578125) * .37));
+                marginalTaxRate += 37;
 
-            } else if (filingStatus.equals("single") && taxableIncome >= 231250) {
+            } else if (filingStatus.equals("Single") && taxableIncome >= 231250) {
                 netTaxes += (52832 + ((taxableIncome - 231250) * .35));
+                marginalTaxRate += 35;
 
-            } else if (filingStatus.equals("single") && taxableIncome >= 182100) {
+            } else if (filingStatus.equals("Single") && taxableIncome >= 182100) {
                 netTaxes += (37104 + (taxableIncome - 182100) * .32);
+                marginalTaxRate = +32;
 
-            } else if (filingStatus.equals("single") && taxableIncome >= 95375) {
+            } else if (filingStatus.equals("Single") && taxableIncome >= 95375) {
                 netTaxes += (16290 + ((taxableIncome - 95375) * .24));
+                marginalTaxRate = +24;
 
-            } else if (filingStatus == "single" && taxableIncome >= 44725) {
+            } else if (filingStatus.equals("Single") && taxableIncome >= 44725) {
                 netTaxes += (5147 + ((taxableIncome - 44725) * .22));
+                marginalTaxRate = +22;
 
-            } else if (filingStatus == "single" && taxableIncome >= 11000) {
+            } else if (filingStatus.equals("Single") && taxableIncome >= 11000) {
                 netTaxes += (1100 + ((taxableIncome - 11000) * .12));
+                marginalTaxRate = +12;
 
-            } else if (filingStatus == "single" && taxableIncome >= 0) {
+            } else if (filingStatus.equals("Single") && taxableIncome >= 0) {
                 netTaxes += (taxableIncome * .1);
+                marginalTaxRate = +10;
 
-            } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 693750) {
+            } else if (filingStatus.equals("Married filing jointly") && taxableIncome >= 693750) {
                 netTaxes += (183132 + ((taxableIncome - 693750) * .37));
+                marginalTaxRate += 37;
 
-            } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 462500) {
+            } else if (filingStatus.equals("Married filing jointly") && taxableIncome >= 462500) {
                 netTaxes += (102195 + ((taxableIncome - 462500) * .35));
+                marginalTaxRate += 35;
 
-            } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 364200) {
+            } else if (filingStatus.equals("Married filing jointly") && taxableIncome >= 364200) {
                 netTaxes += (70739 + ((taxableIncome - 364200) * .32));
+                marginalTaxRate += 32;
 
-            } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 190750) {
+            } else if (filingStatus.equals("Married filing jointly") && taxableIncome >= 190750) {
                 netTaxes += (32580 + ((taxableIncome - 190750) * .24));
+                marginalTaxRate += 24;
 
-            } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 89450) {
+            } else if (filingStatus.equals("Married filing jointly") && taxableIncome >= 89450) {
                 netTaxes += (10294 + ((taxableIncome - 89450) * .22));
+                marginalTaxRate += 22;
 
-            } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 22000) {
+            } else if (filingStatus.equals("Married filing jointly") && taxableIncome >= 22000) {
                 netTaxes += (8094 + ((taxableIncome - 22000) * .12));
+                marginalTaxRate += 12;
 
-            } else if (filingStatus == "Married Filing Jointly" && taxableIncome >= 0) {
+            } else if (filingStatus.equals("Married filing jointly") && taxableIncome >= 0) {
                 netTaxes += (taxableIncome * .1);
+                marginalTaxRate += 10;
             }
 
             // Calculate the final taxes
@@ -197,19 +212,18 @@ public class TaxCalculationsService {
                 totalTaxWithCredits = (double) (0 - (dependents * 1500));
             }
 
-            
             finalTaxes = totalTaxWithCredits - totalPaid;
-
             // Set the fields of the TaxCalculations
             taxCalculations.setTotalIncome(totalIncome);
             taxCalculations.setTotalPaid((double) w2Withheld + taxPaid1099);
             taxCalculations.setTotalDeductions(deductions);
             taxCalculations.setTotalTaxableIncome(taxableIncome);
             taxCalculations.setNetTaxes(netTaxes);
-            taxCalculations.setEffective_tax_rate((netTaxes / taxableIncome) * 100);
+            taxCalculations.setEffective_tax_rate((int) Math.round((netTaxes / taxableIncome) * 100));
             taxCalculations.setTotalCredits((double) (dependents * 2000));
             taxCalculations.setFinalTaxes(finalTaxes);
             taxCalculations.setTotalTaxWithCredits(totalTaxWithCredits);
+            taxCalculations.setMarginalTaxRate(marginalTaxRate);
 
             taxCalculationsRepository.save(taxCalculations);
 

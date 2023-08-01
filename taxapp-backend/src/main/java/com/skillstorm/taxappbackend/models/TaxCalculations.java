@@ -10,7 +10,7 @@ public class TaxCalculations {
     @Id
     private String id;
 
-    private Double effective_tax_rate;
+    private Integer effective_tax_rate;
     private Double totalCredits;
     private Double totalDeductions;
     private Double totalIncome;
@@ -19,6 +19,7 @@ public class TaxCalculations {
     private Double netTaxes;
     private Double finalTaxes;
     private Double totalTaxWithCredits;
+    private Integer marginalTaxRate;
 
     @DBRef
     private TaxInformation taxInformation;
@@ -26,9 +27,9 @@ public class TaxCalculations {
     public TaxCalculations() {
     }
 
-    public TaxCalculations(Double effective_tax_rate, Double totalCredits, Double totalDeductions, Double totalIncome,
-            Double totalPaid, Double totalTaxableIncome, Double netTaxes, Double finalTaxes,
-            Double totalTaxWithCredits, TaxInformation taxInformation) {
+    public TaxCalculations(Integer effective_tax_rate, Double totalCredits, Double totalDeductions, Double totalIncome,
+            Double totalPaid, Double totalTaxableIncome, Double netTaxes, Double finalTaxes, Double totalTaxWithCredits,
+            Integer marginalTaxRate, TaxInformation taxInformation) {
         this.effective_tax_rate = effective_tax_rate;
         this.totalCredits = totalCredits;
         this.totalDeductions = totalDeductions;
@@ -38,6 +39,7 @@ public class TaxCalculations {
         this.netTaxes = netTaxes;
         this.finalTaxes = finalTaxes;
         this.totalTaxWithCredits = totalTaxWithCredits;
+        this.marginalTaxRate = marginalTaxRate;
         this.taxInformation = taxInformation;
     }
 
@@ -49,11 +51,11 @@ public class TaxCalculations {
         this.id = id;
     }
 
-    public Double getEffective_tax_rate() {
+    public Integer getEffective_tax_rate() {
         return effective_tax_rate;
     }
 
-    public void setEffective_tax_rate(Double effective_tax_rate) {
+    public void setEffective_tax_rate(Integer effective_tax_rate) {
         this.effective_tax_rate = effective_tax_rate;
     }
 
@@ -129,6 +131,14 @@ public class TaxCalculations {
         this.taxInformation = taxInformation;
     }
 
+    public Integer getMarginalTaxRate() {
+        return marginalTaxRate;
+    }
+
+    public void setMarginalTaxRate(Integer marginalTaxRate) {
+        this.marginalTaxRate = marginalTaxRate;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -143,6 +153,7 @@ public class TaxCalculations {
         result = prime * result + ((netTaxes == null) ? 0 : netTaxes.hashCode());
         result = prime * result + ((finalTaxes == null) ? 0 : finalTaxes.hashCode());
         result = prime * result + ((totalTaxWithCredits == null) ? 0 : totalTaxWithCredits.hashCode());
+        result = prime * result + ((marginalTaxRate == null) ? 0 : marginalTaxRate.hashCode());
         result = prime * result + ((taxInformation == null) ? 0 : taxInformation.hashCode());
         return result;
     }
@@ -206,6 +217,11 @@ public class TaxCalculations {
                 return false;
         } else if (!totalTaxWithCredits.equals(other.totalTaxWithCredits))
             return false;
+        if (marginalTaxRate == null) {
+            if (other.marginalTaxRate != null)
+                return false;
+        } else if (!marginalTaxRate.equals(other.marginalTaxRate))
+            return false;
         if (taxInformation == null) {
             if (other.taxInformation != null)
                 return false;
@@ -219,8 +235,8 @@ public class TaxCalculations {
         return "TaxCalculations [id=" + id + ", effective_tax_rate=" + effective_tax_rate + ", totalCredits="
                 + totalCredits + ", totalDeductions=" + totalDeductions + ", totalIncome=" + totalIncome
                 + ", totalPaid=" + totalPaid + ", totalTaxableIncome=" + totalTaxableIncome + ", netTaxes=" + netTaxes
-                + ", finalTaxes=" + finalTaxes + ", totalTaxWithCredits=" + totalTaxWithCredits + ", taxInformation="
-                + taxInformation + "]";
+                + ", finalTaxes=" + finalTaxes + ", totalTaxWithCredits=" + totalTaxWithCredits + ", marginalTaxRate="
+                + marginalTaxRate + ", taxInformation=" + taxInformation + "]";
     }
 
 }
