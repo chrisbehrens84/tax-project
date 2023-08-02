@@ -94,13 +94,13 @@ public class TaxInformationControllerTest {
     public void testGetAllTaxInformation() throws Exception {
         List<TaxInformation> taxInformationList = new ArrayList<>();
         AppUser user = new AppUser();
-        TaxInformation taxInformation1 = new TaxInformation( "Single", 2,50000,4000,true,45,45000,5000,user );
+        TaxInformation taxInformation1 = new TaxInformation("Single", 2, 50000, 4000, true, 45, 45000, 5000, user);
 
-        TaxInformation taxInformation2 = new TaxInformation( "Maarried filing Jointly", 1,5000,10000,true,30,30000,1500,user );
+        TaxInformation taxInformation2 = new TaxInformation("Maarried filing Jointly", 1, 5000, 10000, true, 30, 30000,
+                1500, user);
 
         taxInformationList.add(taxInformation1);
         taxInformationList.add(taxInformation2);
-
 
         when(taxInformationService.getAllTaxInformation()).thenReturn(taxInformationList);
 
@@ -108,21 +108,19 @@ public class TaxInformationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(taxInformationList.size())));
-                System.out.println("**************************");
-                System.out.println(taxInformationList.size()); 
-                System.out.println("**************************");  
-                // Add more assertions for the JSON response
-                
+        System.out.println("**************************");
+        System.out.println(taxInformationList.size());
+        System.out.println("**************************");
+        // Add more assertions for the JSON response
 
         verify(taxInformationService, times(1)).getAllTaxInformation();
     }
 
-      @Test
-      public void testGetTaxInformationById_Success() throws Exception {
+    @Test
+    public void testGetTaxInformationById_Success() throws Exception {
         String taxInformationId = "1";
         TaxInformation taxInformation = new TaxInformation();
         taxInformation.setId(taxInformationId);
-        
 
         when(taxInformationService.getTaxInformationById(taxInformationId)).thenReturn(taxInformation);
 
@@ -130,7 +128,6 @@ public class TaxInformationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(taxInformationId));
-              
 
         verify(taxInformationService, times(1)).getTaxInformationById(taxInformationId);
     }
@@ -148,20 +145,21 @@ public class TaxInformationControllerTest {
 
     @Test
     public void testGetTaxInformationByUserId_Success() throws Exception {
-      String userId = "123";
+        String userId = "123";
 
         AppUser user = new AppUser();
         user.setId(userId);
 
-       AppUser user1 = new AppUser();
-       user.setId("321");
+        AppUser user1 = new AppUser();
+        user.setId("321");
 
         List<TaxInformation> taxInformationList = new ArrayList<>();
-        
-        TaxInformation taxInformation1 = new TaxInformation( "Single", 2,50000,4000,true,45,45000,5000,user );
-        
-        TaxInformation taxInformation2 = new TaxInformation( "Maarried filing Jointly", 1,5000,10000,true,30,30000,1500,user1 );
-        
+
+        TaxInformation taxInformation1 = new TaxInformation("Single", 2, 50000, 4000, true, 45, 45000, 5000, user);
+
+        TaxInformation taxInformation2 = new TaxInformation("Maarried filing Jointly", 1, 5000, 10000, true, 30, 30000,
+                1500, user1);
+
         taxInformationList.add(taxInformation1);
         taxInformationList.add(taxInformation2);
 
@@ -171,7 +169,6 @@ public class TaxInformationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(taxInformationList.size())));
-               
 
         verify(taxInformationService, times(1)).getTaxInformationByUserId(userId);
     }
@@ -187,10 +184,11 @@ public class TaxInformationControllerTest {
         // Set other attributes for updatedTaxInformation as needed
 
         TaxInformation updatedTaxInformation = new TaxInformation();
-      
+
         updatedTaxInformation.setFilingStatus(filingStatus2);
-      
-        when(taxInformationService.updateTaxInformation(eq(taxInformationId), eq(updatedTaxInformation))).thenReturn(updatedTaxInformation);
+
+        when(taxInformationService.updateTaxInformation(eq(taxInformationId), eq(updatedTaxInformation)))
+                .thenReturn(updatedTaxInformation);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/tax-information/" + taxInformationId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -198,7 +196,6 @@ public class TaxInformationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.filingStatus").value("Married filing jointly"));
-               
 
         verify(taxInformationService, times(1)).updateTaxInformation(eq(taxInformationId), any());
     }
@@ -208,7 +205,6 @@ public class TaxInformationControllerTest {
         String taxInformationId = "1";
         TaxInformation taxInformation = new TaxInformation();
         taxInformation.setId(taxInformationId);
-       
 
         when(taxInformationService.getTaxInformationById(taxInformationId)).thenReturn(taxInformation);
 
@@ -231,8 +227,4 @@ public class TaxInformationControllerTest {
         verify(taxInformationService, never()).deleteTaxInformationById(taxInformationId);
     }
 
-
 }
-
-
-

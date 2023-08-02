@@ -1,6 +1,5 @@
 package com.skillstorm.taxappbackend.services;
 
-
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -19,7 +18,6 @@ import java.util.Optional;
 
 @Service
 public class TaxInformationService {
-    
 
     @Autowired
     TaxInformationRepository taxInformationRepository;
@@ -29,20 +27,18 @@ public class TaxInformationService {
     TaxCalculationsRepository taxCalculationsRepository;
     @Autowired
     TaxCalculationsService taxCalculationsService;
-    
 
     public TaxInformation saveTaxInformation(TaxInformation taxInformation) {
-         taxInformationRepository.save(taxInformation);
-         callCreateTaxCalculations(taxInformation.getId());
-         return taxInformation;
+        taxInformationRepository.save(taxInformation);
+        callCreateTaxCalculations(taxInformation.getId());
+        return taxInformation;
     }
 
-    public void callCreateTaxCalculations(String id){
+    public void callCreateTaxCalculations(String id) {
         System.out.println(id);
         TaxCalculations taxCalculations = new TaxCalculations();
         taxCalculationsService.generateTaxCalculations(id, taxCalculations);
     }
-
 
     public List<TaxInformation> getAllTaxInformation() {
         return taxInformationRepository.findAll();
@@ -53,10 +49,10 @@ public class TaxInformationService {
     }
 
     public List<TaxInformation> getTaxInformationByUserId(String userId) {
-        
+
         List<TaxInformation> taxInformationList = taxInformationRepository.findByUser_Id(userId);
         System.out.println("Found Tax Information: " + taxInformationList);
-        
+
         return taxInformationList;
     }
 
@@ -76,12 +72,15 @@ public class TaxInformationService {
             existingTaxInformation.setIncome1099(updatedTaxInformation.getIncome1099());
             existingTaxInformation.setTaxPaid1099(updatedTaxInformation.getTaxPaid1099());
 
-            //******where we need to delete/recreate taxCalculations or update the taxCalculations*****************
-
+            // ******where we need to delete/recreate taxCalculations or update the
+            // taxCalculations*****************
             ResponseEntity<TaxCalculations> taxCalculations = taxCalculationsService
-                .getTaxCalculationsByTaxInformationId(taxInformationId);
-            TaxCalculations taxCalculationsBody = taxCalculations.getBody();
-            taxCalculationsService.deleteTaxCalculationsById(taxCalculationsBody.getId());
+                    .getTaxCalculationsByTaxInformationId(taxInformationId);
+            if (taxCalculations != null && taxCalculations.getBody() != null) {
+
+                TaxCalculations taxCalculationsBody = taxCalculations.getBody();
+                taxCalculationsService.deleteTaxCalculationsById(taxCalculationsBody.getId());
+            }
 
             callCreateTaxCalculations(taxInformationId);
 
@@ -92,10 +91,12 @@ public class TaxInformationService {
         }
     }
 
-
     public void deleteTaxInformationById(String id) {
         ResponseEntity<TaxCalculations> taxCalculations = taxCalculationsService
                 .getTaxCalculationsByTaxInformationId(id);
+        if (taxCalculations == null) {
+            throw new RuntimeException("TaxInformation not found with ID: " + id);
+        }
         TaxCalculations taxCalculationsBody = taxCalculations.getBody();
         taxCalculationsService.deleteTaxCalculationsById(taxCalculationsBody.getId());
         taxInformationRepository.deleteById(id);

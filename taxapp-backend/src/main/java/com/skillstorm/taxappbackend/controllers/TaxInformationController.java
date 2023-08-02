@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/tax-information")
 public class TaxInformationController {
- 
 
     @Autowired
     TaxInformationService taxInformationService;
@@ -24,7 +23,8 @@ public class TaxInformationController {
     AppUserService appUserService;
 
     @PostMapping("/{userId}")
-    public ResponseEntity<TaxInformation> saveTaxInformation(@PathVariable String userId, @RequestBody TaxInformation taxInformation) {
+    public ResponseEntity<TaxInformation> saveTaxInformation(@PathVariable String userId,
+            @RequestBody TaxInformation taxInformation) {
         // Get the AppUser by its ID
         AppUser appUser = appUserService.getUserById(userId);
         if (appUser == null) {
@@ -60,13 +60,15 @@ public class TaxInformationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaxInformation> updateTaxInformation(@PathVariable String id, @RequestBody TaxInformation updatedTaxInformation) {
+    public ResponseEntity<TaxInformation> updateTaxInformation(@PathVariable String id,
+            @RequestBody TaxInformation updatedTaxInformation) {
         TaxInformation updatedTaxInfo = taxInformationService.updateTaxInformation(id, updatedTaxInformation);
         return new ResponseEntity<>(updatedTaxInfo, HttpStatus.OK);
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTaxInformationById(@PathVariable String id) {
+
         TaxInformation taxInfo = taxInformationService.getTaxInformationById(id);
         if (taxInfo != null) {
             taxInformationService.deleteTaxInformationById(id);
@@ -76,4 +78,3 @@ public class TaxInformationController {
         }
     }
 }
-
