@@ -9,9 +9,11 @@ import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -21,6 +23,7 @@ import com.skillstorm.taxappbackend.repositories.TaxCalculationsRepository;
 import com.skillstorm.taxappbackend.repositories.TaxInformationRepository;
 import com.skillstorm.taxappbackend.services.TaxCalculationsService;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TaxCalculationsServiceTest {
 
     @Mock
@@ -31,11 +34,6 @@ public class TaxCalculationsServiceTest {
 
     @InjectMocks
     private TaxCalculationsService taxCalculationsService;
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void testSaveTaxCalculations() {
@@ -208,7 +206,7 @@ public class TaxCalculationsServiceTest {
         verify(taxCalculationsRepository, never()).deleteById(any());
     }
 
-    // TODO: Doucle check assertions generated are correct
+   
     @Test
     public void testGenerateTaxCalculations_TaxInformationFound() {
         // Create mock TaxInformation object
