@@ -226,11 +226,11 @@ public class TaxCalculationsService {
             taxCalculations.setMarginalTaxRate(marginalTaxRate);
 
             taxCalculationsRepository.save(taxCalculations);
+            return taxCalculations;
 
         } else {
             throw new RuntimeException("Tax information with id: " + taxInformationId + " not found");
         }
-        return null;
     }
 
 }
