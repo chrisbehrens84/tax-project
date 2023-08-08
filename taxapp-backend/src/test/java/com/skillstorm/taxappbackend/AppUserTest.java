@@ -18,9 +18,10 @@ public class AppUserTest {
         String address = "123 Main Street";
         String city = "New York";
         Integer zip = 10001;
+        String role = "ROLE_USER";
 
         // Act
-        AppUser appUser = new AppUser(email, password, firstName, lastName, ssn, address, city, zip);
+        AppUser appUser = new AppUser(email, password, firstName, lastName, ssn, address, city, zip, role);
 
         // Assert
         Assert.assertEquals(email, appUser.getEmail());
@@ -31,6 +32,7 @@ public class AppUserTest {
         Assert.assertEquals(address, appUser.getAddress());
         Assert.assertEquals(city, appUser.getCity());
         Assert.assertEquals(zip, appUser.getZip());
+        Assert.assertEquals(role, appUser.getRole());
     }
 
     @Test

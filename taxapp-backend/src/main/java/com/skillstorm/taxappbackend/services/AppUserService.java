@@ -1,25 +1,37 @@
 package com.skillstorm.taxappbackend.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.skillstorm.taxappbackend.models.AppUser;
 import com.skillstorm.taxappbackend.repositories.AppUserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AppUserService {
+public class AppUserService implements UserDetailsService {
 
     @Autowired
     AppUserRepository appUserRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
 
     public AppUser createUser(String email, String password) {
         if (!emailExists(email)) {
             AppUser user = new AppUser();
             user.setEmail(email);
-            user.setPassword(password);
+            System.out.println(password);
+            user.setPassword(passwordEncoder.encode(password));
+            System.out.println(password);
+            user.setRole("ROLE_USER");
             return appUserRepository.save(user);
         } else {
             throw new RuntimeException("Email already exists" + email);
@@ -61,4 +73,14 @@ public class AppUserService {
         return appUserRepository.existsByEmail(email);
     }
     // update
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+      AppUser appUser = appUserRepository.findByEmail(email);
+        if (appUser == null) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
+        return new org.springframework.security.core.userdetails.User(appUser.getEmail(),
+                appUser.getPassword(), new ArrayList<>());
+    }
 }
