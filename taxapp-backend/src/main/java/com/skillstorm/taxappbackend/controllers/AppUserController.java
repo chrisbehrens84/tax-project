@@ -3,6 +3,7 @@ package com.skillstorm.taxappbackend.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.skillstorm.taxappbackend.models.AppUser;
@@ -24,6 +25,18 @@ public class AppUserController {
     return appUserService.getAllUsers();
   }
   
+  @GetMapping("/email/{email}")
+  public ResponseEntity<AppUser> getUserByEmail(String email, String password){
+    AppUser appUser = appUserService.getUserByEmail(email);
+    System.out.println(appUser.getPassword());
+    if(appUser != null && appUser.getPassword() == password){
+      return new ResponseEntity<>(appUser, HttpStatus.OK);
+    }else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<AppUser> getUserById(@PathVariable String id) {
     AppUser user = appUserService.getUserById(id);

@@ -72,6 +72,10 @@ public class AppUserService implements UserDetailsService {
     public boolean emailExists(String email) {
         return appUserRepository.existsByEmail(email);
     }
+
+    public AppUser getUserByEmail(String email){
+        return appUserRepository.findByEmail(email);
+    }
     // update
 
     @Override

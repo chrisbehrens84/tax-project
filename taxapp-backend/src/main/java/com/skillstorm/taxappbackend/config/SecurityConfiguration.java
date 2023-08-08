@@ -70,7 +70,7 @@ public class SecurityConfiguration {
 
             // this will generate and return a XSRF-TOKEN cookie with a generated value
             // need to include a X-XSRF-TOKEN in your headers with the matching genertated value to validate the user
-            csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/users", "/tax-information/**")
+            csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/users/**", "/tax-information/**")
         );
 
         return http.build();    // builder design pattern
