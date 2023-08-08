@@ -3,6 +3,9 @@ package com.skillstorm.taxappbackend.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.skillstorm.taxappbackend.models.AppUser;
@@ -18,13 +21,27 @@ public class AppUserController {
   
   @Autowired
   AppUserService appUserService;
-  
+
+  @Autowired
+  PasswordEncoder passwordEncoder;
   
   @GetMapping
   public List<AppUser> getAllUsers() {
     return appUserService.getAllUsers();
   }
   
+  @GetMapping("/email")
+  public ResponseEntity<AppUser> getUserByEmail(@RequestParam String email, @RequestParam String password){
+    AppUser appUser = appUserService.getUserByEmail(email);
+    boolean isAuthenticated = BCrypt.checkpw(password, appUser.getPassword());
+    if(isAuthenticated){
+      return new ResponseEntity<>(appUser, HttpStatus.OK);
+    }else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<AppUser> getUserById(@PathVariable String id) {
     AppUser user = appUserService.getUserById(id);
@@ -36,7 +53,7 @@ public class AppUserController {
   }
   
   //User Signs up
-  @PostMapping("")
+  @PostMapping()
   public ResponseEntity<AppUser> createUser(@RequestParam String email, @RequestParam String password) {
     AppUser user = appUserService.createUser(email, password);
     return new ResponseEntity<>(user, HttpStatus.CREATED);

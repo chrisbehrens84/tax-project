@@ -123,7 +123,7 @@ public class TaxCalculationsService {
             if (w2Withheld == null) {
                 w2Withheld = 0;
             }
-            System.out.println("=========+" + income1099);
+
             // Calculate the total income and total paid
             totalIncome += w2Wages + income1099;
             totalPaid += w2Withheld + taxPaid1099;
@@ -134,13 +134,13 @@ public class TaxCalculationsService {
             } else if (filingStatus.equals("Single") && (age >= 65 || isBlind)) {
                 deductions += 15700;
                 // todo change to .equals
-            } else if (filingStatus == "Single") {
+            } else if (filingStatus.equals("Single")) {
                 deductions += 13850;
-            } else if (filingStatus == "Married filing jointly" && age >= 65 && isBlind) {
+            } else if (filingStatus.equals("Married filing jointly") && age >= 65 && isBlind) {
                 deductions += 30700;
-            } else if (filingStatus == "Married filing jointly" && (age >= 65 || isBlind)) {
+            } else if (filingStatus.equals("Married filing jointly") && (age >= 65 || isBlind)) {
                 deductions += 28500;
-            } else if (filingStatus == "Married filing jointly") {
+            } else if (filingStatus.equals("Married filing jointly")) {
                 deductions += 27700;
             }
             // Calculate the taxable income

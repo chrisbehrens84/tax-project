@@ -1,13 +1,22 @@
 package com.skillstorm.taxappbackend.models;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
-@Document(collection = "app_users")
-public class AppUser {
+@Document(collection = "app_users") 
+public class AppUser implements UserDetails{
 
     @Id
     private String id;
@@ -24,6 +33,7 @@ public class AppUser {
     private String address;
     private String city;
     private Integer zip;
+    private String role;
 
 
     public String getId() {
@@ -46,9 +56,9 @@ public class AppUser {
     }
 
 
-    public String getPassword() {
-      return password;
-    }
+    // public String getPassword() {
+    //   return password;
+    // }
 
 
     public void setPassword(String password) {
@@ -114,6 +124,15 @@ public class AppUser {
     public void setZip(Integer zip) {
       this.zip = zip;
     }
+    
+    public String getRole() {
+      return role;
+    }
+    
+    
+    public void setRole(String role) {
+      this.role = role;
+    }
 
 
     public AppUser() {
@@ -128,7 +147,7 @@ public class AppUser {
 
 
     public AppUser(String email, String password, String firstName, String lastName, Integer ssn, String address,
-        String city, Integer zip) {
+        String city, Integer zip, String role) {
       this.email = email;
       this.password = password;
       this.firstName = firstName;
@@ -137,7 +156,11 @@ public class AppUser {
       this.address = address;
       this.city = city;
       this.zip = zip;
+      this.role = role;
     }
+
+
+   
 
 
     @Override
@@ -153,6 +176,7 @@ public class AppUser {
       result = prime * result + ((address == null) ? 0 : address.hashCode());
       result = prime * result + ((city == null) ? 0 : city.hashCode());
       result = prime * result + ((zip == null) ? 0 : zip.hashCode());
+      result = prime * result + ((role == null) ? 0 : role.hashCode());
       return result;
     }
 
@@ -211,16 +235,65 @@ public class AppUser {
           return false;
       } else if (!zip.equals(other.zip))
         return false;
+      if (role == null) {
+        if (other.role != null)
+          return false;
+      } else if (!role.equals(other.role))
+        return false;
+      return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+      // TODO Auto-generated method stub
+       Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(role);
+        authorities.add(userRole);
+
+        return authorities;     // USER -> ROLE_USER
+    }
+
+    @Override   // getter method for password
+    public String getPassword() {
+        return this.password;
+    }
+
+
+    @Override
+    public String getUsername() {
+      // TODO Auto-generated method stub
+      return this.email;
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+      // TODO Auto-generated method stub
       return true;
     }
 
 
     @Override
-    public String toString() {
-      return "AppUser [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
-          + ", lastName=" + lastName + ", ssn=" + ssn + ", address=" + address + ", city=" + city + ", zip=" + zip
-          + "]";
+    public boolean isAccountNonLocked() {
+      // TODO Auto-generated method stub
+      return true;
     }
+
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+      // TODO Auto-generated method stub
+      return true;
+    }
+
+
+    @Override
+    public boolean isEnabled() {
+      // TODO Auto-generated method stub
+      return true;
+    }
+
 
     
     
