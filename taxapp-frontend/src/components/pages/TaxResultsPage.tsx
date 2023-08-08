@@ -20,6 +20,8 @@ export default function TaxResultsPage(){
     const url = "http://localhost:8080/tax-calculations"
 
     const user = useSelector((store : any) => store.user);
+    const [totalBackground, setTotalBackground] = useState("")
+    const [totalString, setTotalString] = useState("")
 
     const [taxResultVals, setTaxResultVals] = useState({
         totalIncome: 0,
@@ -29,6 +31,7 @@ export default function TaxResultsPage(){
         totalCredits: 0,
         totalTaxWithCredits: 0,
         effective_tax_rate: 0,
+        marginalTaxRate: 0,
         totalPaid: 0,
         finalTaxes: 0
     });
@@ -45,9 +48,18 @@ export default function TaxResultsPage(){
                     totalCredits: returnedData.totalCredits,
                     totalTaxWithCredits: returnedData.totalTaxWithCredits,
                     effective_tax_rate: returnedData.effective_tax_rate,
+                    marginalTaxRate: returnedData.marginalTaxRate,
                     totalPaid: returnedData.totalPaid,
                     finalTaxes: returnedData.finalTaxes
                 })
+                if (returnedData.finalTaxes < 0){
+                    setTotalBackground("#70e17b");
+                    setTotalString("Refund Amount");
+                }
+                else{
+                    setTotalBackground("#f2938c");
+                    setTotalString("Taxes Due");
+                }
                 console.log(returnedData)
             })
             .catch(error => console.error(error))
@@ -102,16 +114,20 @@ export default function TaxResultsPage(){
                             <td>{taxResultVals.totalTaxWithCredits}</td>
                         </tr>
                         <tr>
+                            <th scope="row">Marginal tax rate</th>
+                            <td>{taxResultVals.marginalTaxRate}%</td>
+                        </tr>
+                        <tr>
                             <th scope="row">Effective tax rate</th>
-                            <td>{taxResultVals.effective_tax_rate}</td>
+                            <td>{taxResultVals.effective_tax_rate}%</td>
                         </tr>
                         <tr>
                             <th scope="row">Tax Pre-Payments</th>
                             <td>{taxResultVals.totalPaid}</td>
                         </tr>
-                        <tr>
-                            <th scope="row"><strong>Amount Due/Refund Amount</strong></th>
-                            <td>{taxResultVals.finalTaxes}</td>
+                        <tr style={{backgroundColor : totalBackground}}>
+                            <th scope="row" style={{backgroundColor : totalBackground}}><strong>{totalString}</strong></th>
+                            <td style={{backgroundColor : totalBackground}}>{Math.abs(taxResultVals.finalTaxes)}</td>
                         </tr>
                     </tbody>
                 </Table>

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export default function TaxInfoPage(){
     /*
-        filingStatus – “Married” “Single” “Married filing jointly”
+        filingStatus – “Single” “Married filing jointly”
         dependents – 0 or more
         w2Wages (w2 box 1) – 0  >=
         w2Witheld (w2 box 2) – 0 >=
@@ -149,8 +149,7 @@ export default function TaxInfoPage(){
                             <Label htmlFor="filingStatus">Filing Status:</Label>
                             <Fieldset id="filingStatus">
                                 <Radio id="single" name="filingStatus" defaultChecked={defaultData.filingStatus=="Single"} label="Single" value="Single"/>
-                                <Radio id="married" name="filingStatus" defaultChecked={defaultData.filingStatus=="Married"} label="Married" value="Married"/>
-                                <Radio id="marringFilingJointly" name="filingStatus" defaultChecked={defaultData.filingStatus=="Married Filing Jointly"} label="Married Filing Jointly" value="Married Filing Jointly"/>
+                                <Radio id="marringFilingJointly" name="filingStatus" defaultChecked={defaultData.filingStatus=="Married filing jointly"} label="Married Filing Jointly" value="Married filing jointly"/>
 
                             </Fieldset>
                             
@@ -163,7 +162,7 @@ export default function TaxInfoPage(){
                             <Label htmlFor="w2WitheldInput">W2 Witheld:</Label>
                             <TextInput id='w2WitheldInput' name='w2WitheldInput' type='number' defaultValue={defaultData.w2Withheld}/>
                             
-                            <Label htmlFor="isBlindInput">What is your blindness status?</Label>
+                            <Label htmlFor="isBlindInput">Are you legally blind?</Label>
                             <Fieldset id="isBlindInput">
                                 <Radio id="true" name="isBlindInput"  defaultChecked={defaultData.isBlind} label="Blind" value="true"/>
                                 <Radio id="false" name="isBlindInput" defaultChecked={!defaultData.isBlind} label="Not Blind" value="false"/>
