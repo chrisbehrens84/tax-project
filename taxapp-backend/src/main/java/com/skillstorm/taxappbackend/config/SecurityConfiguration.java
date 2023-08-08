@@ -39,10 +39,13 @@ public class SecurityConfiguration {
                  
                     .mvcMatchers(HttpMethod.POST, "/users").permitAll()
                     .mvcMatchers(HttpMethod.GET, "/users").permitAll()
+                    .mvcMatchers(HttpMethod.GET, "/users/email").permitAll()
                     .mvcMatchers(HttpMethod.PUT, "/users/*").authenticated()
                     .mvcMatchers(HttpMethod.DELETE, "/users/*").authenticated()
                     .mvcMatchers(HttpMethod.GET, "/tax-information").authenticated()
                     .mvcMatchers(HttpMethod.POST, "/tax-information/**").authenticated()
+                    .mvcMatchers(HttpMethod.GET, "/tax-calculations").authenticated()
+                    .mvcMatchers(HttpMethod.POST, "/tax-calculations/**").authenticated()
 
 
                     // .mvcMatchers(HttpMethod.GET, "/movies/**").authenticated()      // authentication required to make GET request to any movies endpoint

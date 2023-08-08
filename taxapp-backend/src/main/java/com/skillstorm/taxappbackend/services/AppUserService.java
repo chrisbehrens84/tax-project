@@ -74,6 +74,7 @@ public class AppUserService implements UserDetailsService {
     }
 
     public AppUser getUserByEmail(String email){
+        System.out.println(email);
         return appUserRepository.findByEmail(email);
     }
     // update
