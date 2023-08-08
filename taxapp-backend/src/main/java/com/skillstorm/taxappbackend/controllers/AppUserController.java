@@ -11,6 +11,7 @@ import com.skillstorm.taxappbackend.services.AppUserService;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/users")
 public class AppUserController {
   
