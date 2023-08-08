@@ -17,26 +17,25 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping("/users")
 public class AppUserController {
-  
-  
+
   @Autowired
   AppUserService appUserService;
 
   @Autowired
   PasswordEncoder passwordEncoder;
-  
+
   @GetMapping
   public List<AppUser> getAllUsers() {
     return appUserService.getAllUsers();
   }
-  
+
   @GetMapping("/email")
-  public ResponseEntity<AppUser> getUserByEmail(@RequestParam String email, @RequestParam String password){
+  public ResponseEntity<AppUser> getUserByEmail(@RequestParam String email, @RequestParam String password) {
     AppUser appUser = appUserService.getUserByEmail(email);
     boolean isAuthenticated = BCrypt.checkpw(password, appUser.getPassword());
-    if(isAuthenticated){
+    if (isAuthenticated) {
       return new ResponseEntity<>(appUser, HttpStatus.OK);
-    }else {
+    } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -51,33 +50,36 @@ public class AppUserController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
-  
-  //User Signs up
+
+  // User Signs up
   @PostMapping()
   public ResponseEntity<AppUser> createUser(@RequestParam String email, @RequestParam String password) {
     AppUser user = appUserService.createUser(email, password);
-    return new ResponseEntity<>(user, HttpStatus.CREATED);
-  }
-  
-  @PutMapping("/{id}")
-    public ResponseEntity<AppUser> updateUser(@PathVariable String id, @RequestBody AppUser updatedUser) {
-        AppUser user = appUserService.updateUser(id, updatedUser);
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    if (user == null) {
+      return new ResponseEntity<>(HttpStatus.CONFLICT);
+    } else {
+      return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<AppUser> updateUser(@PathVariable String id, @RequestBody AppUser updatedUser) {
+    AppUser user = appUserService.updateUser(id, updatedUser);
+    if (user != null) {
+      return new ResponseEntity<>(user, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
 
   @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable String id) {
-        AppUser user = appUserService.getUserById(id);
-        if (user != null) {
-            appUserService.deleteUserById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+  public ResponseEntity<Void> deleteUserById(@PathVariable String id) {
+    AppUser user = appUserService.getUserById(id);
+    if (user != null) {
+      appUserService.deleteUserById(id);
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+  }
 }
-

@@ -23,7 +23,6 @@ public class AppUserService implements UserDetailsService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-
     public AppUser createUser(String email, String password) {
         if (!emailExists(email)) {
             AppUser user = new AppUser();
@@ -34,7 +33,7 @@ public class AppUserService implements UserDetailsService {
             user.setRole("ROLE_USER");
             return appUserRepository.save(user);
         } else {
-            throw new RuntimeException("Email already exists" + email);
+            return null;
         }
     }
 
@@ -73,7 +72,7 @@ public class AppUserService implements UserDetailsService {
         return appUserRepository.existsByEmail(email);
     }
 
-    public AppUser getUserByEmail(String email){
+    public AppUser getUserByEmail(String email) {
         System.out.println(email);
         return appUserRepository.findByEmail(email);
     }
@@ -81,7 +80,7 @@ public class AppUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-      AppUser appUser = appUserRepository.findByEmail(email);
+        AppUser appUser = appUserRepository.findByEmail(email);
         if (appUser == null) {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
