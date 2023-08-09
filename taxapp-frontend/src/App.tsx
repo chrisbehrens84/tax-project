@@ -8,11 +8,13 @@ import TaxInfoPage from './components/pages/TaxInfoPage'
 import TaxResultsPage from './components/pages/TaxResultsPage'
 import { Header, PrimaryNav, Title } from '@trussworks/react-uswds'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setEmail, setId, setPassword, setTaxInfoId } from './slices/userSlice'
 
 export default function App(){
 
     const user = useSelector((store : any) => store.user);
+    const dispatch = useDispatch();
 
 
     const [menuItems, setMenuItems] = useState([<Link to={"/"}>Login</Link>,
@@ -22,12 +24,19 @@ export default function App(){
         <Link to={"/tax_info"}>Tax Info</Link>,
         <Link to={"/results"}>Results</Link> ]);
 
+    function clearUser(){
+        dispatch(setId(""));
+        dispatch(setEmail(""));
+        dispatch(setPassword(""));
+        dispatch(setTaxInfoId(""));
+    }
     useEffect(() => {
         if(user.id == ""){
             setMenuItems([<Link to={"/"}>Login</Link>])
         }
         else{
-            setMenuItems([<Link to={"/home"}>Home</Link>])
+            setMenuItems([<Link to={"/home"}>Home</Link>,
+                          <Link to={"/"} onClick={clearUser}>Logout</Link>])
         }
     }, [user.id]);
         

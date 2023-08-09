@@ -38,9 +38,9 @@ public class SecurityConfiguration {
                 authorizeHttpRequests
                         // allowing all access to /users/hello without authentication
 
-                        .mvcMatchers(HttpMethod.POST, "/users").permitAll() // create user method
-                        .mvcMatchers(HttpMethod.GET, "/users/email").permitAll() // login method
-                        .anyRequest().authenticated() // any other request requires authentication
+                        //.mvcMatchers(HttpMethod.POST, "/users**").permitAll() // create user method
+                        //.mvcMatchers(HttpMethod.GET, "/users/email").permitAll() // login method
+                        .anyRequest().permitAll() // any other request requires authentication
                 );
 
         http.httpBasic(); // uses Basic Authentication instead of formLogin

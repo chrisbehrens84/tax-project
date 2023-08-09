@@ -16,8 +16,6 @@ export default function SignupPage(){
         const data = new FormData(event.target);
 
 
-        dispatch(setEmail(data.get('emailInput')));
-        dispatch(setPassword(data.get('passwordInput')));
 
 
         //TODO talk to chris and ricardo about changing the format of this request
@@ -31,6 +29,8 @@ export default function SignupPage(){
             .then(returnedData =>{
                 console.log(returnedData);
                 dispatch(setId(returnedData.id));
+                dispatch(setPassword(returnedData.password));
+                dispatch(setEmail(returnedData.email));
                 event.target.reset();
                 navigate("/home");
             })
