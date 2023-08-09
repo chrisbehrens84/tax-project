@@ -15,7 +15,20 @@ export default function LoginPage(){
 
     function loginFormSubmit(event : any){
         const data = new FormData(event.target);
-        fetch(url + `?email=${data.get('emailInput')}&password=${data.get('passwordInput')}`)
+        //fetch(url + `?email=${data.get('emailInput')}&password=${data.get('passwordInput')}`,{
+        
+        const messageBody = {
+            email : data.get('emailInput'),
+            password : data.get('passwordInput')
+        }
+        fetch(url ,{
+
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(messageBody)
+        })
             .then(data => data.json())
             .then(returnedData =>{
                 console.log(returnedData);
