@@ -28,7 +28,7 @@ public class AppUserController {
     return appUserService.getAllUsers();
   }
 
-  @GetMapping("/email")
+  @PostMapping("/email")
   public ResponseEntity<AppUser> getUserByEmail(@RequestParam String email, @RequestParam String password) {
     AppUser appUser = appUserService.getUserByEmail(email);
     boolean isAuthenticated = BCrypt.checkpw(password, appUser.getPassword());

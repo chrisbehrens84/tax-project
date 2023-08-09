@@ -13,6 +13,7 @@ import com.skillstorm.taxappbackend.services.TaxInformationService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(allowCredentials = "true", originPatterns = "http://localhost:5173")
 @RequestMapping("/tax-information")
 public class TaxInformationController {
 
