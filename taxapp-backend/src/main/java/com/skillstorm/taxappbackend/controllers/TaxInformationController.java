@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tax-information")
+@CrossOrigin(allowCredentials = "true", originPatterns = "http://localhost:5173")
 public class TaxInformationController {
 
     @Autowired
