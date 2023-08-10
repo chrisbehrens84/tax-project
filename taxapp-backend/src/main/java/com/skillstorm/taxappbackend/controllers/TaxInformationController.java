@@ -13,7 +13,10 @@ import com.skillstorm.taxappbackend.services.TaxInformationService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(allowCredentials = "true", originPatterns = "http://s3-fpolicastro.s3-website-us-east-1.amazonaws.com")
+// @CrossOrigin(originPatterns = {
+// "http://s3-fpolicastro.s3-website-us-east-1.amazonaws.com",
+// "http://localhost:5173" })
+@CrossOrigin("*")
 @RequestMapping("/tax-information")
 public class TaxInformationController {
 

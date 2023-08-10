@@ -29,7 +29,7 @@ public class AppUserService implements UserDetailsService {
             AppUser user = new AppUser();
             user.setEmail(email);
             user.setPassword(passwordEncoder.encode(password));
-            user.setRole("USER");
+            user.setRole("ROLE_USER");
             return appUserRepository.save(user);
         } else {
             return null;
@@ -42,7 +42,7 @@ public class AppUserService implements UserDetailsService {
             AppUser existingUser = existingUserOptional.get();
             existingUser.setEmail(updatedUser.getEmail());
             String updatedPassword = updatedUser.getPassword();
-            if (!updatedPassword.startsWith("$2a$")) { 
+            if (!updatedPassword.startsWith("$2a$")) {
                 // If the updated password is not hashed, encode it
                 existingUser.setPassword(passwordEncoder.encode(updatedPassword));
             } else {
@@ -82,7 +82,6 @@ public class AppUserService implements UserDetailsService {
         System.out.println(email);
         return appUserRepository.findByEmail(email);
     }
-    
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
