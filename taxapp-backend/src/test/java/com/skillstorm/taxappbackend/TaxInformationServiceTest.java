@@ -122,39 +122,6 @@ public class TaxInformationServiceTest {
         assertEquals(taxInformationList, result);
     }
 
-    // @Test
-    // public void testUpdateTaxInformation_Success() {
-    // // Create a mock TaxInformation object with updated attributes
-    // AppUser user = new AppUser();
-    // user.setId("1");
-
-    // List<TaxInformation> taxInformationList = new ArrayList<>();
-
-    // TaxInformation taxInformation1 = new TaxInformation( "Single",
-    // 2,50000,4000,true,45,45000,5000,user );
-    // taxInformationList.add(taxInformation1);
-
-    // TaxInformation updatedTaxInformation = new TaxInformation( "Single",
-    // 1,50000,4000,true,45,45000,5000,user );
-
-    // // Mock the behavior of the taxInformationRepository.findById() method
-    // when(taxInformationRepository.findById("1")).thenReturn(Optional.of(taxInformation1));
-    // // Set original attributes as needed
-
-    // // Mock the behavior of the taxInformationRepository.save() method
-    // when(taxInformationRepository.save(any())).thenReturn(updatedTaxInformation);
-
-    // // Call the method under test
-    // TaxInformation result = taxInformationService.updateTaxInformation("1",
-    // updatedTaxInformation);
-
-    // // Assert that the method returns the updated TaxInformation object
-    // assertEquals(updatedTaxInformation, result);
-
-    // // Verify that the taxCalculationsService.callCreateTaxCalculations() method
-    // is called with the correct taxInformationId
-    // verify(taxInformationService, times(1)).callCreateTaxCalculations("1");
-    // }
 
     @Test
     public void testUpdateTaxInformation_Success() {
