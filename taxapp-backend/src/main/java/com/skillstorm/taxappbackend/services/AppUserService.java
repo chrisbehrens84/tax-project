@@ -28,9 +28,7 @@ public class AppUserService implements UserDetailsService {
         if (!emailExists(email)) {
             AppUser user = new AppUser();
             user.setEmail(email);
-            System.out.println(password);
             user.setPassword(passwordEncoder.encode(password));
-            System.out.println(password);
             user.setRole("USER");
             return appUserRepository.save(user);
         } else {
@@ -43,6 +41,13 @@ public class AppUserService implements UserDetailsService {
         if (existingUserOptional.isPresent()) {
             AppUser existingUser = existingUserOptional.get();
             existingUser.setEmail(updatedUser.getEmail());
+            String updatedPassword = updatedUser.getPassword();
+            if (!updatedPassword.startsWith("$2a$")) { 
+                // If the updated password is not hashed, encode it
+                existingUser.setPassword(passwordEncoder.encode(updatedPassword));
+            } else {
+                existingUser.setPassword(updatedPassword); // Password is already hashed, use as is
+            }
             existingUser.setPassword(updatedUser.getPassword());
             existingUser.setFirstName(updatedUser.getFirstName());
             existingUser.setLastName(updatedUser.getLastName());
@@ -77,7 +82,7 @@ public class AppUserService implements UserDetailsService {
         System.out.println(email);
         return appUserRepository.findByEmail(email);
     }
-    // update
+    
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
