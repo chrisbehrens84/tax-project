@@ -15,6 +15,7 @@ import com.skillstorm.taxappbackend.services.AppUserService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(allowCredentials = "true", originPatterns = "http://s3-fpolicastro.s3-website-us-east-1.amazonaws.com")
 @RequestMapping("/users")
 public class AppUserController {
 

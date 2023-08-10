@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.skillstorm.taxappbackend.services.TaxCalculationsService;
 import com.skillstorm.taxappbackend.services.TaxInformationService;
 
 @RestController
+@CrossOrigin(allowCredentials = "true", originPatterns = "http://s3-fpolicastro.s3-website-us-east-1.amazonaws.com")
 @RequestMapping("/tax-calculations")
 public class TaxCalculationsController {
 
@@ -63,7 +65,12 @@ public class TaxCalculationsController {
 
     @GetMapping("/tax-information/{taxInformationId}")
     public ResponseEntity<TaxCalculations> getTaxCalculationsByTaxInformationId(@PathVariable String taxInformationId) {
-        return taxCalculationsService.getTaxCalculationsByTaxInformationId(taxInformationId);
+        ResponseEntity<TaxCalculations> taxCalculations = taxCalculationsService
+                .getTaxCalculationsByTaxInformationId(taxInformationId);
+        if (taxCalculations == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return taxCalculations;
     }
 
     /** Put mappings */

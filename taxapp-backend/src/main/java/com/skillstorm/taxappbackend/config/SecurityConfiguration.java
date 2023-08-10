@@ -54,7 +54,8 @@ public class SecurityConfiguration {
                 .cors(cors -> {
                     cors.configurationSource(request -> {
                         CorsConfiguration config = new CorsConfiguration();
-                        config.setAllowedOrigins(Arrays.asList("http://44.201.48.146:8080"));
+                        config.setAllowedOrigins(
+                                Arrays.asList("http://s3-fpolicastro.s3-website-us-east-1.amazonaws.com:8080"));
                         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
                         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
                         config.setAllowCredentials(true);
