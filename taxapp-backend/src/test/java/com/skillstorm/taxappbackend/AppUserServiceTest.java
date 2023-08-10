@@ -1,7 +1,6 @@
 package com.skillstorm.taxappbackend;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.skillstorm.taxappbackend.models.AppUser;
 import com.skillstorm.taxappbackend.repositories.AppUserRepository;
@@ -23,6 +23,9 @@ public class AppUserServiceTest {
 
     @Mock
     private AppUserRepository appUserRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private AppUserService appUserService;
@@ -41,17 +44,16 @@ public class AppUserServiceTest {
         when(appUserRepository.save(any(AppUser.class))).thenReturn(newUser);
 
         AppUser createdUser = appUserService.createUser(email, password);
-        System.out.println(createdUser.getPassword());
 
         assertNotNull(createdUser);
         assertEquals(email, createdUser.getEmail());
-        // assertEquals(password, createdUser.getPassword());
+        assertEquals(password, createdUser.getPassword());
 
         verify(appUserRepository, times(1)).existsByEmail(email);
         verify(appUserRepository, times(1)).save(any(AppUser.class));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testCreateUser_EmailExists() {
         String email = "existing@example.com";
         String password = "test123";
@@ -61,9 +63,6 @@ public class AppUserServiceTest {
         appUserService.createUser(email, password);
     }
 
-   
-
-
     @Test
     public void testUpdateUser_Success() {
         String userId = "123";
@@ -71,7 +70,6 @@ public class AppUserServiceTest {
         existingUser.setId(userId);
         existingUser.setEmail("oldemail@example.com");
         existingUser.setPassword("oldpassword");
-       
 
         when(appUserRepository.findById(userId)).thenReturn(Optional.of(existingUser));
 
@@ -79,7 +77,6 @@ public class AppUserServiceTest {
         updatedUser.setId(userId);
         updatedUser.setEmail("newemail@example.com");
         updatedUser.setPassword("newpassword");
-    
 
         when(appUserRepository.save(existingUser)).thenReturn(updatedUser);
 
@@ -88,8 +85,7 @@ public class AppUserServiceTest {
         assertNotNull(result);
         assertEquals(userId, result.getId());
         assertEquals(updatedUser.getEmail(), result.getEmail());
-        // assertEquals(updatedUser.getPassword(), result.getPassword());
-        
+        assertEquals(updatedUser.getPassword(), result.getPassword());
 
         verify(appUserRepository, times(1)).findById(userId);
         verify(appUserRepository, times(1)).save(existingUser);
@@ -102,7 +98,6 @@ public class AppUserServiceTest {
         when(appUserRepository.findById(userId)).thenReturn(Optional.empty());
 
         AppUser updatedUser = new AppUser();
-    
 
         AppUser result = appUserService.updateUser(userId, updatedUser);
 
@@ -115,14 +110,12 @@ public class AppUserServiceTest {
     @Test
     public void testGetAllUsers() {
         List<AppUser> users = new ArrayList<>();
-      
 
         when(appUserRepository.findAll()).thenReturn(users);
 
         List<AppUser> result = appUserService.getAllUsers();
 
         assertEquals(users.size(), result.size());
-   
 
         verify(appUserRepository, times(1)).findAll();
     }
@@ -132,7 +125,6 @@ public class AppUserServiceTest {
         String userId = "123";
         AppUser user = new AppUser();
         user.setId(userId);
-        
 
         when(appUserRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -140,7 +132,6 @@ public class AppUserServiceTest {
 
         assertNotNull(result);
         assertEquals(userId, result.getId());
-      
 
         verify(appUserRepository, times(1)).findById(userId);
     }
@@ -167,4 +158,3 @@ public class AppUserServiceTest {
         verify(appUserRepository, times(1)).deleteById(userId);
     }
 }
-

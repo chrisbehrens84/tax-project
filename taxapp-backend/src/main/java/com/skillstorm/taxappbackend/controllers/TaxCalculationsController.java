@@ -29,25 +29,6 @@ public class TaxCalculationsController {
     @Autowired
     TaxInformationService taxInformationService;
 
-    /* Post Mappings */
-    // @PostMapping("/{taxInfoId}")
-    // public ResponseEntity<TaxCalculations> saveTaxCalculations(@PathVariable
-    // String taxInfoId,
-    // @RequestBody TaxCalculations taxCalculations) {
-    // // Get the TaxInformation by its ID
-    // TaxInformation taxInformation =
-    // taxInformationService.getTaxInformationById(taxInfoId);
-    // if (taxInformation == null) {
-    // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    // }
-    // // Associate the TaxInformation with the TaxCalculations
-    // taxCalculations.setTaxInformation(taxInformation);
-    // // Save the TaxCalculations
-    // TaxCalculations savedTaxCalculations =
-    // taxCalculationsService.saveTaxCalculations(taxCalculations);
-    // return ResponseEntity.ok(savedTaxCalculations);
-    // }
-
     @PostMapping("/generate/{taxInformationId}")
     public ResponseEntity<TaxCalculations> generateTaxCalculations(@PathVariable String taxInformationId) {
         TaxCalculations taxCalculations = new TaxCalculations();
