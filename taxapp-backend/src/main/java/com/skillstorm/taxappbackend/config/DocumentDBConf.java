@@ -7,34 +7,34 @@ import org.springframework.context.annotation.Configuration;
 
 import com.mongodb.MongoClientSettings;
 
-// @Configuration
-// public class DocumentDBConf {
-//     private MongoProperties properties;
-	
-// 	public static final String KEY_STORE_TYPE = "/tmp/certs/rds-truststore.jks";
-//     public static final String DEFAULT_KEY_STORE_PASSWORD = "secrets123";
+@Configuration
+public class DocumentDBConf {
+    private MongoProperties properties;
 
-//     public DocumentDBConf(final MongoProperties properties) {
-//         super();
-//         this.properties = properties;
-//     }
+    public static final String KEY_STORE_TYPE = "/tmp/certs/rds-truststore.jks";
+    public static final String DEFAULT_KEY_STORE_PASSWORD = "secrets123";
 
-//     @Bean
-//     public MongoClientSettings mongoClientSettings() { 
-//         setSslProperties();
+    public DocumentDBConf(final MongoProperties properties) {
+        super();
+        this.properties = properties;
+    }
 
-//         return MongoClientSettings.builder()
-//                 .applyToSslSettings(builder -> builder.enabled(true))
-//                 .build();
-// 	}
+    @Bean
+    public MongoClientSettings mongoClientSettings() {
+        setSslProperties();
 
-//     private static void setSslProperties() { 
-//         System.setProperty("javax.net.ssl.trustStore", KEY_STORE_TYPE);
-//         System.setProperty("javax.net.ssl.trustStorePassword", DEFAULT_KEY_STORE_PASSWORD);
-//     }
+        return MongoClientSettings.builder()
+                .applyToSslSettings(builder -> builder.enabled(true))
+                .build();
+    }
 
-// 	@Bean
-//     public MongoPropertiesClientSettingsBuilderCustomizer mongoPropertiesCustomizer(final MongoProperties properties) {
-//         return new MongoPropertiesClientSettingsBuilderCustomizer(properties, null);
-// 	}
-// }
+    private static void setSslProperties() {
+        System.setProperty("javax.net.ssl.trustStore", KEY_STORE_TYPE);
+        System.setProperty("javax.net.ssl.trustStorePassword", DEFAULT_KEY_STORE_PASSWORD);
+    }
+
+    @Bean
+    public MongoPropertiesClientSettingsBuilderCustomizer mongoPropertiesCustomizer(final MongoProperties properties) {
+        return new MongoPropertiesClientSettingsBuilderCustomizer(properties, null);
+    }
+}

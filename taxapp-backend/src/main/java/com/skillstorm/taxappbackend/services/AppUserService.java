@@ -1,6 +1,7 @@
 package com.skillstorm.taxappbackend.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,7 +31,7 @@ public class AppUserService implements UserDetailsService {
             System.out.println(password);
             user.setPassword(passwordEncoder.encode(password));
             System.out.println(password);
-            user.setRole("ROLE_USER");
+            user.setRole("USER");
             return appUserRepository.save(user);
         } else {
             return null;

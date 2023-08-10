@@ -1,5 +1,7 @@
 package com.skillstorm.taxappbackend.config;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true, jsr250Enabled = true) // allow for AOP security checks (prePostEnabled is
@@ -33,18 +37,29 @@ public class SecurityConfiguration {
         // using the httpSecurity object to configure which endpoints require
         // authentication/authorization
         http
-                .authorizeHttpRequests((authorizeHttpRequests) ->
+                .authorizeHttpRequests((authorizeHttpRequests) -> {
 
-                authorizeHttpRequests
-                        // allowing all access to /users/hello without authentication
+                    authorizeHttpRequests
+                            // allowing all access to /users/hello without authentication
 
-                        .mvcMatchers(HttpMethod.POST, "/users").permitAll() // create user method
-                        .mvcMatchers(HttpMethod.GET, "/users/email").permitAll() // login method
-                        .anyRequest().authenticated() // any other request requires authentication
-                );
+                            .mvcMatchers(HttpMethod.POST, "/users").permitAll() // create user method
+                            .mvcMatchers(HttpMethod.GET, "/users").permitAll() // Get all users
+                            .mvcMatchers(HttpMethod.GET, "/users/email").permitAll() // login method
+                            .mvcMatchers(HttpMethod.PUT, "/users/**").authenticated()// login method
+                            .mvcMatchers(HttpMethod.PUT, "/users").authenticated() // update user method
+                            .mvcMatchers(HttpMethod.DELETE, "/users").authenticated() // delete user method
 
-        http.httpBasic(); // uses Basic Authentication instead of formLogin
+                            .mvcMatchers(HttpMethod.POST, "/tax-information").authenticated() // get tax info
+                            .mvcMatchers(HttpMethod.GET, "/tax-information").authenticated() // get tax info
+                            .mvcMatchers(HttpMethod.PUT, "/tax-information").authenticated() // get tax info
+                            .mvcMatchers(HttpMethod.DELETE, "/tax-information").authenticated() // get tax info
 
+                            .mvcMatchers(HttpMethod.GET, "/tax-calculation/**").authenticated() // get tax info
+                            .anyRequest().authenticated(); // any other request requires authentication
+                });
+        http.httpBasic();
+
+        // http.httpBasic(); // uses Basic Authentication instead of formLogin
         /**
          * Cross Site Request Forgery
          * when someone is trying to be you while you are logged in
@@ -64,7 +79,21 @@ public class SecurityConfiguration {
         // need to include a X-XSRF-TOKEN in your headers with the matching genertated
         // value to validate the user
         csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/users/**",
-                "/tax-information/**"));
+                "/tax-information/**"))
+                .cors(cors -> {
+                    cors.configurationSource(request -> {
+                        CorsConfiguration config = new CorsConfiguration();
+                        config.setAllowedOrigins(Arrays.asList("http://44.201.48.146:8080"));
+                        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+                        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+                        config.setAllowCredentials(true);
+                        config.setMaxAge(3600L); // 1 hour
+
+                        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                        source.registerCorsConfiguration("/**", config);
+                        return config;
+                    });
+                });
 
         return http.build(); // builder design pattern
     }
