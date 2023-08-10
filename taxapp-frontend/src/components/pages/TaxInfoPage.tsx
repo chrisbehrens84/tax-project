@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTaxInfoId } from "../../slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
 export default function TaxInfoPage(){
@@ -16,6 +17,8 @@ export default function TaxInfoPage(){
         income1099 0 >=
         taxPaid1099 0> =
     */
+
+    const {t} = useTranslation();
 
     const url = 'http://localhost:8080/tax-information';
 
@@ -146,39 +149,39 @@ export default function TaxInfoPage(){
                     <div style={{marginLeft : '4rem'}}>
                         <Form onSubmit={taxInfoFormSubmit}>
 
-                            <Label htmlFor="filingStatus">Filing Status:</Label>
+                            <Label htmlFor="filingStatus">{t("Filing Status")}:</Label>
                             <Fieldset id="filingStatus">
                                 <Radio id="single" name="filingStatus" defaultChecked={defaultData.filingStatus=="Single"} label="Single" value="Single"/>
                                 <Radio id="marringFilingJointly" name="filingStatus" defaultChecked={defaultData.filingStatus=="Married filing jointly"} label="Married Filing Jointly" value="Married filing jointly"/>
 
                             </Fieldset>
                             
-                            <Label htmlFor="dependentInput">Number of Dependents</Label>
-                            <TextInput id='dependentInput' name='dependentInput' type='number' defaultValue={defaultData.dependents}/>
+                            <Label htmlFor="dependentInput">{t("Number of Dependents")}</Label>
+                            <TextInput id='dependentInput' name='dependentInput' type='number' min={0} defaultValue={defaultData.dependents}/>
 
-                            <Label htmlFor="w2WageInput">W2 Wages:</Label>
-                            <TextInput id='w2WageInput' name='w2WageInput' type='number' defaultValue={defaultData.w2Wages}/>
+                            <Label htmlFor="w2WageInput">{t("W2 Wages")}:</Label>
+                            <TextInput id='w2WageInput' name='w2WageInput' type='number' min={0} defaultValue={defaultData.w2Wages}/>
 
-                            <Label htmlFor="w2WitheldInput">W2 Witheld:</Label>
-                            <TextInput id='w2WitheldInput' name='w2WitheldInput' type='number' defaultValue={defaultData.w2Withheld}/>
+                            <Label htmlFor="w2WitheldInput">{t("W2 Witheld")}:</Label>
+                            <TextInput id='w2WitheldInput' name='w2WitheldInput' type='number' min={0} defaultValue={defaultData.w2Withheld}/>
                             
-                            <Label htmlFor="isBlindInput">Are you legally blind?</Label>
+                            <Label htmlFor="isBlindInput">{t("Are you legally blind?")}</Label>
                             <Fieldset id="isBlindInput">
                                 <Radio id="true" name="isBlindInput"  defaultChecked={defaultData.isBlind} label="Blind" value="true"/>
                                 <Radio id="false" name="isBlindInput" defaultChecked={!defaultData.isBlind} label="Not Blind" value="false"/>
 
                             </Fieldset>
 
-                            <Label htmlFor="ageInput">Age:</Label>
-                            <TextInput id='ageInput' name='ageInput' type='number' defaultValue={defaultData.age}/>
+                            <Label htmlFor="ageInput">{t("Age")}:</Label>
+                            <TextInput id='ageInput' name='ageInput' type='number' min={0} max={130} defaultValue={defaultData.age}/>
 
-                            <Label htmlFor="1099IncomeInput">1099 Income:</Label>
-                            <TextInput id='1099IncomeInput' name='1099IncomeInput' type='number' defaultValue={defaultData.income1099}/>
+                            <Label htmlFor="1099IncomeInput">{t("1099 Income")}:</Label>
+                            <TextInput id='1099IncomeInput' name='1099IncomeInput' type='number' min={0} defaultValue={defaultData.income1099}/>
 
-                            <Label htmlFor="1099TaxPaidInput">1099 Taxes Paid:</Label>
-                            <TextInput id='1099TaxPaidInput' name='1099TaxPaidInput' type='number' defaultValue={defaultData.taxPaid1099}/>
+                            <Label htmlFor="1099TaxPaidInput">{t("1099 Taxes Paid")}:</Label>
+                            <TextInput id='1099TaxPaidInput' name='1099TaxPaidInput' type='number' min={0} defaultValue={defaultData.taxPaid1099}/>
 
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit">{t("Calculate")}</Button>
                             
                         </Form>
                     </div>

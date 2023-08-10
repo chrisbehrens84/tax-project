@@ -38,8 +38,8 @@ public class SecurityConfiguration {
                 authorizeHttpRequests
                         // allowing all access to /users/hello without authentication
 
-                        //.mvcMatchers(HttpMethod.POST, "/users/**").permitAll() // create user method
-                        //.mvcMatchers(HttpMethod.POST, "/users/email").permitAll() // login method
+                        //.mvcMatchers(HttpMethod.POST, "/users").permitAll() // create user method
+                        //.mvcMatchers(HttpMethod.GET, "/users/email").permitAll() // login method
                         .anyRequest().permitAll() // any other request requires authentication
                 );
 

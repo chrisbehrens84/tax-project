@@ -2,11 +2,13 @@ import { Button, Form, Label, TextInput } from "@trussworks/react-uswds"
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setEmail, setId, setPassword } from "../../slices/userSlice";
+import { useTranslation } from "react-i18next";
 
 
 export default function SignupPage(){
 
     const navigate = useNavigate();
+    const {t} = useTranslation();
     const url = 'http://localhost:8080/users';
 
     const dispatch = useDispatch();
@@ -48,14 +50,14 @@ export default function SignupPage(){
         <>
             <div style={{marginLeft : '4rem'}}>
                 <Form onSubmit={signupFormSubmit}>
-                    <Label htmlFor="emailInput">Email:</Label>
+                    <Label htmlFor="emailInput">{t("Email")}:</Label>
                     <TextInput id='emailInput' name='emailInput' type='text'/>
-                    <Label htmlFor="passwordInput">Password:</Label>
-                    <TextInput id='passwordInput' name='passwordInput' type='text'/>
-                    <Label htmlFor="passwordConfirmInput">Confirm Password:</Label>
-                    <TextInput id='passwordConfirmInput' name='passwordConfirmInput' type='text'/>
-                    <Button type="submit">Sign Up</Button>
-                    <Button type="button" onClick={returnToLogin}>Cancel</Button>
+                    <Label htmlFor="passwordInput">{t("Password")}:</Label>
+                    <TextInput id='passwordInput' name='passwordInput' type='password'/>
+                    <Label htmlFor="passwordConfirmInput">{t("Confirm Password")}:</Label>
+                    <TextInput id='passwordConfirmInput' name='passwordConfirmInput' type='password'/>
+                    <Button type="submit">{t("Sign up")}</Button>
+                    <Button type="button" onClick={returnToLogin}>{t("Cancel")}</Button>
                 </Form>
             </div>
         </>

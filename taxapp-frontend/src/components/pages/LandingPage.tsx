@@ -4,9 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CalculationChoice from "../utility/CalculationChoice";
 import { setTaxInfoId } from "../../slices/userSlice";
+import { useTranslation } from "react-i18next";
 
 
 export default function LandingPage(){
+
+    const {t} = useTranslation()
 
     const dispatch = useDispatch();
 
@@ -65,45 +68,45 @@ export default function LandingPage(){
         <>
             {isLoading && 
                 <>
-                    <p>loading...</p>
+                    <p>{t("loading")}...</p>
                 </>
             }
             {isLoading == false &&
                 <>
                     {personalInfoFilled == false &&
                         <>
-                            <p>Finish filling out your personal info, and then start a tax calculation below</p>
-                            <Button type="button" onClick={personalInfo}>Get Started</Button>
+                            <p>{t("finishYourInfo")}</p>
+                            <Button type="button" onClick={personalInfo}>{t("Update Personal Info")}</Button>
                         </>
                     }
                     {personalInfoFilled &&
                         <>
                             {taxCalculationNum == 0 && 
                                 <>
-                                    <p>You have no tax information filled out! Get started below</p>
-                                    <Button type="button" onClick={newCalculation}>Get Started</Button>
+                                    <p>{t("noCalc")}</p>
+                                    <Button type="button" onClick={newCalculation}>{t("Get Started")}</Button>
                                 </>
                             }
 
                             {taxCalculationNum == 1 && 
                                 <>
-                                    <p>You've already started a tax information form. Continue where you left off, or start a new one!</p>
+                                    <p>{t("oneCalc")}</p>
                                     <CalculationChoice calculation={taxCalculations[0]}></CalculationChoice>
-                                    <Button type="button" onClick={newCalculation}>Get Started</Button>
+                                    <Button type="button" onClick={newCalculation}>{t("Get Started")}</Button>
                                 </>
                             }
 
                             {taxCalculationNum >= 2 && 
                                 <>
-                                    <p>Select from previous tax calculations or start a new one:</p>
+                                    <p>{t("twoCalc")}</p>
                                     {taxCalculations.map((taxCalculation : any) =>{
                                         return <CalculationChoice key={taxCalculation.id} calculation={taxCalculation}></CalculationChoice>
                                     })}
-                                    <Button type="button" onClick={newCalculation}>Get Started</Button>
+                                    <Button type="button" onClick={newCalculation}>{t("Get Started")}</Button>
                                 </>
                             }
-                            <p>OR Update your personal info below:</p>
-                            <Button type="button" onClick={personalInfo}>Update Info</Button>
+                            <p>{t("updateInfo")}</p>
+                            <Button type="button" onClick={personalInfo}>{t("Update Personal Info")}</Button>
                         </>
                     }
                 </>

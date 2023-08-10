@@ -1,6 +1,7 @@
 import { Table } from "@trussworks/react-uswds";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
 export default function TaxResultsPage(){
@@ -18,6 +19,8 @@ export default function TaxResultsPage(){
     */
 
     const url = "http://localhost:8080/tax-calculations"
+
+    const {t, i18n} = useTranslation();
 
     const user = useSelector((store : any) => store.user);
     const [totalBackground, setTotalBackground] = useState("")
@@ -54,16 +57,25 @@ export default function TaxResultsPage(){
                 })
                 if (returnedData.finalTaxes < 0){
                     setTotalBackground("#70e17b");
-                    setTotalString("Refund Amount");
+                    setTotalString(t("Refund Amount"));
                 }
                 else{
                     setTotalBackground("#f2938c");
-                    setTotalString("Taxes Due");
+                    setTotalString(t("Taxes Due"));
                 }
                 console.log(returnedData)
             })
             .catch(error => console.error(error))
     }, [])
+
+    useEffect(() => {
+        if (taxResultVals.finalTaxes < 0){
+            setTotalString(t("Refund Amount"));
+        }
+        else{
+            setTotalString(t("Taxes Due"));
+        }
+    }, [i18n.language])
 
 
 
@@ -75,54 +87,44 @@ export default function TaxResultsPage(){
                     <thead>
                         <tr>
                             <th scope="col"></th>
-                            <th scope="col">Amount ($)</th>
+                            <th scope="col">{t("Amount")} ($)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row"><strong>Total Income</strong></th>
+                            <th scope="row"><strong>{t("Total Income")}</strong></th>
                             <td>{taxResultVals.totalIncome}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Deductions</th>
+                            <th scope="row">{t("Deductions")}</th>
                             <td>{taxResultVals.totalDeductions}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Taxable Income</th>
+                            <th scope="row">{t("Taxable Income")}</th>
                             <td>{taxResultVals.totalTaxableIncome}</td>
                         </tr>
                         <tr>
-                            <th scope="row"><strong>Regular Taxes</strong></th>
+                            <th scope="row"><strong>{t("Regular Taxes")}</strong></th>
                             <td>{taxResultVals.netTaxes}</td>
                         </tr>
-                        {/**                    totalIncome: returnedData.totalIncome,
-                    totalDeductions: returnedData.totalDeductions,
-                    totalTaxableIncome: returnedData.totalTaxableIncome,
-                    netTaxes: returnedData.netTaxes,
-                    totalCredits: returnedData.totalCredits,
-                    totalTaxWithCredits: returnedData.totalTaxWithCredits,
-                    effective_tax_rate: returnedData.effective_tax_rate,
-                    totalPaid: returnedData.totalPaid,
-                    finalTaxes: returnedData.finalTaxes
- */}
                         <tr>
-                            <th scope="row">All Tax Credits</th>
+                            <th scope="row">{t("All Tax Credits")}</th>
                             <td>{taxResultVals.totalCredits}</td>
                         </tr>
                         <tr>
-                            <th scope="row"><strong>Total Tax With Credits</strong></th>
+                            <th scope="row"><strong>{t("Total Tax With Credits")}</strong></th>
                             <td>{taxResultVals.totalTaxWithCredits}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Marginal tax rate</th>
+                            <th scope="row">{t("Marginal tax rate")}</th>
                             <td>{taxResultVals.marginalTaxRate}%</td>
                         </tr>
                         <tr>
-                            <th scope="row">Effective tax rate</th>
+                            <th scope="row">{t("Effective tax rate")}</th>
                             <td>{taxResultVals.effective_tax_rate}%</td>
                         </tr>
                         <tr>
-                            <th scope="row">Tax Pre-Payments</th>
+                            <th scope="row">{t("Tax Pre-Payments")}</th>
                             <td>{taxResultVals.totalPaid}</td>
                         </tr>
                         <tr style={{backgroundColor : totalBackground}}>
