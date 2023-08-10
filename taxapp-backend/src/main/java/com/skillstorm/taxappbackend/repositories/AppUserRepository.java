@@ -7,7 +7,7 @@ import com.skillstorm.taxappbackend.models.AppUser;
 public interface AppUserRepository extends MongoRepository<AppUser, String> {
 
     boolean existsByEmail(String email);
-    // Custom methods (if needed) can be added here
+   
 
     AppUser findByEmail(String email);
 }

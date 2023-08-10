@@ -3,6 +3,7 @@ package com.skillstorm.taxappbackend.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,7 @@ import com.skillstorm.taxappbackend.services.AppUserService;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/users")
 public class AppUserController {
 
@@ -61,7 +63,7 @@ public class AppUserController {
     }
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   public ResponseEntity<AppUser> updateUser(@PathVariable String id, @RequestBody AppUser updatedUser) {
     AppUser user = appUserService.updateUser(id, updatedUser);
     if (user != null) {

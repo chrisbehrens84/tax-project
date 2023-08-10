@@ -1,6 +1,7 @@
 package com.skillstorm.taxappbackend.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,9 +28,7 @@ public class AppUserService implements UserDetailsService {
         if (!emailExists(email)) {
             AppUser user = new AppUser();
             user.setEmail(email);
-            System.out.println(password);
             user.setPassword(passwordEncoder.encode(password));
-            System.out.println(password);
             user.setRole("ROLE_USER");
             return appUserRepository.save(user);
         } else {
@@ -42,6 +41,13 @@ public class AppUserService implements UserDetailsService {
         if (existingUserOptional.isPresent()) {
             AppUser existingUser = existingUserOptional.get();
             existingUser.setEmail(updatedUser.getEmail());
+            String updatedPassword = updatedUser.getPassword();
+            if (!updatedPassword.startsWith("$2a$")) {
+                // If the updated password is not hashed, encode it
+                existingUser.setPassword(passwordEncoder.encode(updatedPassword));
+            } else {
+                existingUser.setPassword(updatedPassword); // Password is already hashed, use as is
+            }
             existingUser.setPassword(updatedUser.getPassword());
             existingUser.setFirstName(updatedUser.getFirstName());
             existingUser.setLastName(updatedUser.getLastName());
@@ -76,7 +82,6 @@ public class AppUserService implements UserDetailsService {
         System.out.println(email);
         return appUserRepository.findByEmail(email);
     }
-    // update
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
