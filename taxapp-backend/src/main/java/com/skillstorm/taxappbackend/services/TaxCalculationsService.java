@@ -134,13 +134,13 @@ public class TaxCalculationsService {
             } else if (filingStatus.equals("Single") && (age >= 65 || isBlind)) {
                 deductions += 15700;
                 // todo change to .equals
-            } else if (filingStatus.equals( "Single")) {
+            } else if (filingStatus.equals("Single")) {
                 deductions += 13850;
-            } else if (filingStatus.equals( "Married filing jointly") && age >= 65 && isBlind) {
+            } else if (filingStatus.equals("Married filing jointly") && age >= 65 && isBlind) {
                 deductions += 30700;
-            } else if (filingStatus.equals( "Married filing jointly") && (age >= 65 || isBlind)) {
+            } else if (filingStatus.equals("Married filing jointly") && (age >= 65 || isBlind)) {
                 deductions += 28500;
-            } else if (filingStatus.equals( "Married filing jointly")) {
+            } else if (filingStatus.equals("Married filing jointly")) {
                 deductions += 27700;
             }
             // Calculate the taxable income
