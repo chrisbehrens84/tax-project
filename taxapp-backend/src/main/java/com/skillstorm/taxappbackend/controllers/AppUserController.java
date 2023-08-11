@@ -3,6 +3,7 @@ package com.skillstorm.taxappbackend.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,14 +31,7 @@ public class AppUserController {
   }
 
   @PostMapping("/email")
-  public ResponseEntity<AppUser> getUserByEmail(@RequestBody AppUser user) {
-
-    String email = user.getEmail();
-    String password = user.getPassword();
-
-    System.out.println("38" + email);
-    System.out.println(password);
-
+  public ResponseEntity<AppUser> getUserByEmail(@RequestParam String email, @RequestParam String password) {
     AppUser appUser = appUserService.getUserByEmail(email);
     boolean isAuthenticated = BCrypt.checkpw(password, appUser.getPassword());
     if (isAuthenticated) {
@@ -69,7 +63,7 @@ public class AppUserController {
     }
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   public ResponseEntity<AppUser> updateUser(@PathVariable String id, @RequestBody AppUser updatedUser) {
     AppUser user = appUserService.updateUser(id, updatedUser);
     if (user != null) {
