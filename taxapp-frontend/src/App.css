@@ -1,6 +1,7 @@
 .usa-footer__secondary-section {
-    background-color: #e1f3f8
+    background-color: #e1f3f8;
 }
 
-
-  
+.custom-card:hover{
+    border: 3px solid black;
+}

@@ -1,5 +1,5 @@
 {
-    "appTitle" : "Calculadora de impuestos",
+    "appTitle" : "2023 Calculadora de impuestos",
     "Email" : "Correo electrónico",
     "Password" : "Contraseña",
     "Log in" : "Acceso",
@@ -44,5 +44,22 @@
     "Tax Pre-Payments" : "Pagos por adelantado de impuestos",
     "Refund Amount" : "Monto de reembolso",
     "Taxes Due" : "Impuestos adeudados",
-    "Tax Results" : "Resultados"
+    "Tax Results" : "Resultados",
+    "Warning status" : "Error de inicio de sesión",
+    "warningText" : "Error al iniciar sesión. Ingrese el correo electrónico y la contraseña correctos.",
+    "Welcome" : "Bienvenidos",
+    "Home" : "Página de inicio",
+    "Logout" : "Cerrar sesión",
+    "Start New Tax Form" : "Empezar formulario de impuestos",
+    "Form" : "Forma",
+    "Delete" : "Borrar",
+    "Save" : "Guardar",
+    "Single" : "Soltero",
+    "Married Filing Jointly" : "Casado y haciendo declaración conjunta",
+    "Blind" : "Si",
+    "Not Blind" : "No",
+    "Personal Information" : "Información Personal",
+    "Tax Information" : "Información sobre los Impuestos",
+    "Sign In" : "Iniciar sesión",
+    "User" : "Usuario"
 }

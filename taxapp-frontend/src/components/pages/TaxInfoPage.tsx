@@ -1,4 +1,4 @@
-import { Button, Fieldset, Form, Label, Radio, TextInput } from "@trussworks/react-uswds";
+import { Button, Fieldset, Form, Grid, GridContainer, Label, Radio, TextInput, Title } from "@trussworks/react-uswds";
 import { useDispatch, useSelector } from "react-redux";
 import { setTaxInfoId } from "../../slices/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -18,9 +18,10 @@ export default function TaxInfoPage(){
         taxPaid1099 0> =
     */
 
-    const {t} = useTranslation();
 
     const url = 'http://44.201.48.146:8080/tax-information';
+
+    const {t} = useTranslation();
 
     const [isLoading, setIsloading] = useState(true);
 
@@ -60,6 +61,10 @@ export default function TaxInfoPage(){
     })
 
     useEffect(() => {
+        if(user.id == ""){
+            navigate("/");
+            return
+        }
         console.log(user.taxInfoId);
         if(user.taxInfoId != ""){
             fetch(url + `/${user.taxInfoId}`)
@@ -79,7 +84,9 @@ export default function TaxInfoPage(){
                     console.log(returnedData);
                     setIsloading(false);
                 })
-                .catch(error => console.log(error));
+                .catch(error => {
+                    console.log(error);
+                });
         }
         else{
             setIsloading(false);
@@ -146,42 +153,58 @@ export default function TaxInfoPage(){
             }
             {!isLoading &&
                 <>
-                    <div style={{marginLeft : '4rem'}}>
-                        <Form onSubmit={taxInfoFormSubmit}>
+                    <div>
 
-                            <Label htmlFor="filingStatus">{t("Filing Status")}:</Label>
-                            <Fieldset id="filingStatus">
-                                <Radio id="single" name="filingStatus" defaultChecked={defaultData.filingStatus=="Single"} label="Single" value="Single"/>
-                                <Radio id="marringFilingJointly" name="filingStatus" defaultChecked={defaultData.filingStatus=="Married filing jointly"} label="Married Filing Jointly" value="Married filing jointly"/>
+                        <Form onSubmit={taxInfoFormSubmit} style={{maxWidth:"100vw"}}>
+                            <GridContainer>
+                                <Title>{t("Tax Information")}</Title>
+                                <Grid row style={{border:"2px solid black", borderRadius:"5px", margin:"2em 0"}}>
+                                    <Grid col={6}>
+                                        <div style={{ height:"100%", minWidth:"25em",  padding:"2em", marginRight:'1em'}}>
+                                            <Label htmlFor="filingStatus">{t("Filing Status")}:</Label>
+                                            <Fieldset id="filingStatus">
+                                                <Radio id="single" name="filingStatus" defaultChecked={defaultData.filingStatus=="Single"} label={t("Single")} value="Single"/>
+                                                <Radio id="marringFilingJointly" name="filingStatus" defaultChecked={defaultData.filingStatus=="Married filing jointly"} label={t("Married Filing Jointly")} value="Married filing jointly"/>
 
-                            </Fieldset>
+                                            </Fieldset>
+                                            
+                                            <Label htmlFor="dependentInput">{t("Number of Dependents")}</Label>
+                                            <TextInput id='dependentInput' name='dependentInput' type='number' min={0} defaultValue={defaultData.dependents}/>
+
+                                            <Label htmlFor="w2WageInput">{t("W2 Wages")}:</Label>
+                                            <TextInput id='w2WageInput' name='w2WageInput' type='number' min={0} defaultValue={defaultData.w2Wages}/>
+
+                                            <Label htmlFor="w2WitheldInput">{t("W2 Witheld")}:</Label>
+                                            <TextInput id='w2WitheldInput' name='w2WitheldInput' type='number' min={0} defaultValue={defaultData.w2Withheld}/>
+                                        </div>
+                                    </Grid>
+                                    <Grid col={6}>
+                                        <div style={{ height:"100%", minWidth:"25em",  padding:"2em", marginLeft:'1em'}}>
+                                            <Label htmlFor="isBlindInput">{t("Are you legally blind?")}</Label>
+                                            <Fieldset id="isBlindInput">
+                                                <Radio id="true" name="isBlindInput"  defaultChecked={defaultData.isBlind} label={t("Blind")} value="true"/>
+                                                <Radio id="false" name="isBlindInput" defaultChecked={!defaultData.isBlind} label={t("Not Blind")} value="false"/>
+
+                                            </Fieldset>
+
+                                            <Label htmlFor="ageInput">{t("Age")}:</Label>
+                                            <TextInput id='ageInput' name='ageInput' type='number' min={0} max={130} defaultValue={defaultData.age}/>
+
+                                            <Label htmlFor="1099IncomeInput">{t("1099 Income")}:</Label>
+                                            <TextInput id='1099IncomeInput' name='1099IncomeInput' type='number' min={0} defaultValue={defaultData.income1099}/>
+
+                                            <Label htmlFor="1099TaxPaidInput">{t("1099 Taxes Paid")}:</Label>
+                                            <TextInput id='1099TaxPaidInput' name='1099TaxPaidInput' type='number' min={0} defaultValue={defaultData.taxPaid1099}/>
+
+                                            <Button type="submit">{t("Calculate")}</Button>
+                                        </div>
+                                    </Grid>
+                                </Grid>
+                            </GridContainer>
+
                             
-                            <Label htmlFor="dependentInput">{t("Number of Dependents")}</Label>
-                            <TextInput id='dependentInput' name='dependentInput' type='number' min={0} defaultValue={defaultData.dependents}/>
-
-                            <Label htmlFor="w2WageInput">{t("W2 Wages")}:</Label>
-                            <TextInput id='w2WageInput' name='w2WageInput' type='number' min={0} defaultValue={defaultData.w2Wages}/>
-
-                            <Label htmlFor="w2WitheldInput">{t("W2 Witheld")}:</Label>
-                            <TextInput id='w2WitheldInput' name='w2WitheldInput' type='number' min={0} defaultValue={defaultData.w2Withheld}/>
                             
-                            <Label htmlFor="isBlindInput">{t("Are you legally blind?")}</Label>
-                            <Fieldset id="isBlindInput">
-                                <Radio id="true" name="isBlindInput"  defaultChecked={defaultData.isBlind} label="Blind" value="true"/>
-                                <Radio id="false" name="isBlindInput" defaultChecked={!defaultData.isBlind} label="Not Blind" value="false"/>
-
-                            </Fieldset>
-
-                            <Label htmlFor="ageInput">{t("Age")}:</Label>
-                            <TextInput id='ageInput' name='ageInput' type='number' min={0} max={130} defaultValue={defaultData.age}/>
-
-                            <Label htmlFor="1099IncomeInput">{t("1099 Income")}:</Label>
-                            <TextInput id='1099IncomeInput' name='1099IncomeInput' type='number' min={0} defaultValue={defaultData.income1099}/>
-
-                            <Label htmlFor="1099TaxPaidInput">{t("1099 Taxes Paid")}:</Label>
-                            <TextInput id='1099TaxPaidInput' name='1099TaxPaidInput' type='number' min={0} defaultValue={defaultData.taxPaid1099}/>
-
-                            <Button type="submit">{t("Calculate")}</Button>
+                            
                             
                         </Form>
                     </div>

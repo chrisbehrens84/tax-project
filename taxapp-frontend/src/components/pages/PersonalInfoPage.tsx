@@ -1,4 +1,4 @@
-import { Button, Form, Label, TextInput } from "@trussworks/react-uswds";
+import { Button, Form, Label, TextInput, Title } from "@trussworks/react-uswds";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -22,7 +22,8 @@ export default function PersonalInfoPage(){
         city: "",
         zip: ""
     })
-    const [rawSsn, setRawSsn] = useState("");
+    //TODO ssn validation
+    //const [rawSsn, setRawSsn] = useState("");
     const [maskedSsn, setMaskedSsn] = useState("");
 
     function handleSsnChange(event : any){
@@ -31,6 +32,9 @@ export default function PersonalInfoPage(){
     }
 
     useEffect(() => {
+        if(user.id == ""){
+            navigate("/");
+        }
         fetch(`http://44.201.48.146:8080/users/${user.id}`)
         .then(data => data.json())
         .then(returnedData => {
@@ -104,7 +108,8 @@ export default function PersonalInfoPage(){
             }
             {isLoading == false &&
                 <>
-                    <div style={{marginLeft : '4rem'}}>
+                    <Title style={{textAlign:"center"}}>{t("Personal Information")}</Title>
+                    <div style={{width: "25%", minWidth:"25em", margin: "5vh auto", border:"2px solid black", borderRadius:"5px", padding:"2em", marginBottom:"20px", marginTop:"20px"}}>
                         <Form onSubmit={personalInfoFormSubmit}>
 
                             <Label htmlFor="firstNameInput">{t("First Name")}:</Label>
@@ -125,7 +130,7 @@ export default function PersonalInfoPage(){
                             <Label htmlFor="zipInput">{t("Zip Code")}:</Label>
                             <TextInput id='zipInput' name='zipInput' type='text' defaultValue={defaultData.zip}/>
 
-                            <Button type="submit">{t("Next")}</Button>
+                            <Button type="submit">{t("Save")}</Button>
                             
                         </Form>
                     </div>

@@ -1,9 +1,9 @@
 {
-    "appTitle" : "Tax Calculator App",
+    "appTitle" : "2023 Tax Estimator",
     "Email" : "Email",
     "Password" : "Password",
     "Log in" : "Log in",
-    "Sign up" : "Sign up",
+    "Sign up" : "Sign Up",
     "Confirm Password" : "Confirm Password",
     "Cancel" : "Cancel",
     "Change Language" : "Change Language",
@@ -44,7 +44,24 @@
     "Tax Pre-Payments" : "Tax Pre-Payments",
     "Refund Amount" : "Refund Amount",
     "Taxes Due" : "Taxes Due",
-    "Tax Results" : "Tax Results"
+    "Tax Results" : "Tax Results",
+    "Warning status" : "Login Error",
+    "warningText" : "Failed to login. Please enter correct email and password.",
+    "Welcome" : "Welcome",
+    "Home" : "Home",
+    "Logout" : "Logout",
+    "Start New Tax Form" : "Start New Tax Form",
+    "Form" : "Form",
+    "Delete" : "Delete",
+    "Save" : "Save",
+    "Single" : "Single",
+    "Married Filing Jointly" : "Married filing jointly",
+    "Blind" : "Blind",
+    "Not Blind" : "Not Blind",
+    "Personal Information" : "Personal Information",
+    "Tax Information" : "Tax Information",
+    "Sign In" : "Sign In",
+    "User" : "User"
 
 
 }

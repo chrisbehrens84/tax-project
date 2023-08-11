@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setEmail, setId, setPassword, setTaxInfoId } from './slices/userSlice'
 import { useTranslation } from 'react-i18next'
+import irsLogo from "./assets/Logo_of_the_Internal_Revenue_Service.svg.png"
 
 export default function App(){
 
@@ -36,12 +37,12 @@ export default function App(){
     }
     useEffect(() => {
         if(user.id == ""){
-            setMenuItems([<Link to={"/"}>Login</Link>,
+            setMenuItems([<Link to={"/"}>{t("Log in")}</Link>,
                           <Button type='button' onClick={toggleLanguage}>{t("Change Language")}</Button>])
         }
         else{
-            setMenuItems([<Link to={"/home"}>Home</Link>,
-                          <Link to={"/"} onClick={clearUser}>Logout</Link>,
+            setMenuItems([<Link to={"/home"}>{t("Home")}</Link>,
+                          <Link to={"/"} onClick={clearUser}>{t("Logout")}</Link>,
                           <Button type='button' onClick={toggleLanguage}>{t("Change Language")}</Button>])
         }
     }, [user.id]);
@@ -53,36 +54,47 @@ export default function App(){
         else{
             i18n.changeLanguage("en");
         }
+        if(user.id == ""){
+            setMenuItems([<Link to={"/"}>{t("Log in")}</Link>,
+                          <Button type='button' onClick={toggleLanguage}>{t("Change Language")}</Button>])
+        }
+        else{
+            setMenuItems([<Link to={"/home"}>{t("Home")}</Link>,
+                          <Link to={"/"} onClick={clearUser}>{t("Logout")}</Link>,
+                          <Button type='button' onClick={toggleLanguage}>{t("Change Language")}</Button>])
+        }
     }
         
     return(
         <>
             <BrowserRouter>
                 <div  style={{height : "100vh"}}>
-                    <div className={`usa-overlay ${expanded ? 'is-visible' : ''}`}></div>
-                    <Header basic={true} className='bg-accent-cool-lighter' >
-                        <div className='usa-nav-container'>
-                            <div className='usa-navbar'>
-                                <Title>{t("appTitle")}</Title>
-                                <NavMenuButton onClick={() =>{setExpanded(!expanded)}} label="Menu" />
+                    <div >
+                        <div className={`usa-overlay ${expanded ? 'is-visible' : ''}`}></div>
+                        <Header basic={true} className='bg-accent-cool-lighter' >
+                            <div className='usa-nav-container'>
+                                <div className='usa-navbar'>
+                                    <Title>{t("appTitle")}</Title>
+                                    <NavMenuButton onClick={() =>{setExpanded(!expanded)}} label="Menu" />
+                                </div>
+                                <PrimaryNav items={menuItems} mobileExpanded={expanded} onToggleMobileNav={() =>{setExpanded(!expanded)}}></PrimaryNav>
+                                
                             </div>
-                            <PrimaryNav items={menuItems} mobileExpanded={expanded} onToggleMobileNav={() =>{setExpanded(!expanded)}}></PrimaryNav>
-                            
+                        </Header>
+                        <div style={{flex:1, padding:"20px"}}>
+                            <Routes>
+                                <Route path="/" element={<LoginPage/>} />
+                                <Route path="/signup" element={<SignupPage/>} />
+                                <Route path="/home" element={<LandingPage/>} />
+                                <Route path="/personal_info" element={<PersonalInfoPage/>} />
+                                <Route path="/tax_info" element={<TaxInfoPage/>} />
+                                <Route path="/results" element={<TaxResultsPage/>} />
+                            </Routes>
                         </div>
-                    </Header>
-                    <div style={{}}>
-                        <Routes>
-                            <Route path="/" element={<LoginPage/>} />
-                            <Route path="/signup" element={<SignupPage/>} />
-                            <Route path="/home" element={<LandingPage/>} />
-                            <Route path="/personal_info" element={<PersonalInfoPage/>} />
-                            <Route path="/tax_info" element={<TaxInfoPage/>} />
-                            <Route path="/results" element={<TaxResultsPage/>} />
-                        </Routes>
                     </div>
                     <Footer
                         //className='bg-primary-light'
-                        //style={{position:"absolute", left:0, bottom:0, right:0}}
+                        //style={{position:"fixed", left:0, bottom:0, right:0, height:"125px"}}
                         size="slim"
                         primary={<></>}
                         secondary={
@@ -93,7 +105,7 @@ export default function App(){
                                     <img
                                         className="usa-footer__logo-img"
                                         alt="img alt text"
-                                        src={"./src/assets/Logo_of_the_Internal_Revenue_Service.svg.png"}
+                                        src={irsLogo}
                                     />
                                     }
                                     heading={<p className="usa-footer__logo-heading">Internal Revenue Services</p>}
@@ -101,11 +113,12 @@ export default function App(){
                                 <Address
                                     size="slim"
                                     items={[
+                                    
                                     <a key="telephone" href="tel:1-800-555-5555">
                                         (800) 555-5555
                                     </a>,
-                                    <a key="email" href="mailto:fpolicastro@skillstorm.com">
-                                        fpolicastro@skillstorm.com
+                                    <a key="link" href="https://www.irs.gov">
+                                        IRS Website
                                     </a>,
                                     ]}
                                 />

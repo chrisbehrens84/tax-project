@@ -1,6 +1,6 @@
 //import React from "react";
 import renderer from "react-test-renderer"
-import LoginPage from "../components/pages/LoginPage";
+import SignupPage from "../components/pages/SignupPage";
 
 const mockUsedNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -9,10 +9,10 @@ jest.mock('react-router-dom', () => ({
 }));
 
 
-it('Login Page rendering', () =>{
+it('Sign Up Page Rendering', () =>{
 
     //Creates the json data for HTML tree
-    const tree : any = renderer.create(<LoginPage/>).toJSON();
+    const tree : any = renderer.create(<SignupPage/>).toJSON();
 
     //Compares to existing snapshot OR generates new one
     expect(tree).toMatchSnapshot();

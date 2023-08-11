@@ -2,6 +2,7 @@ import { Table } from "@trussworks/react-uswds";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 
 export default function TaxResultsPage(){
@@ -23,6 +24,7 @@ export default function TaxResultsPage(){
     const {t, i18n} = useTranslation();
 
     const user = useSelector((store : any) => store.user);
+    const navigate = useNavigate();
     const [totalBackground, setTotalBackground] = useState("")
     const [totalString, setTotalString] = useState("")
 
@@ -38,8 +40,12 @@ export default function TaxResultsPage(){
         totalPaid: 0,
         finalTaxes: 0
     });
+
     
     useEffect(() => {
+        if(user.id == ""){
+            navigate("/")
+        }
         fetch(url + `/tax-information/${user.taxInfoId}`)
             .then(data => data.json())
             .then(returnedData => {
@@ -82,7 +88,7 @@ export default function TaxResultsPage(){
     return(
         <>
 
-            <div style={{marginLeft : "4em"}}>
+            <div style={{width: "25%", minWidth:"25em", margin: "0 auto", marginBottom:"10vh"}}>
                 <Table bordered caption={t("Tax Results")}>
                     <thead>
                         <tr>

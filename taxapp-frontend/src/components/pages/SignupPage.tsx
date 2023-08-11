@@ -48,7 +48,8 @@ export default function SignupPage(){
 
     return(
         <>
-            <div style={{marginLeft : '4rem'}}>
+            <div style={{width: "25%", minWidth:"25em", margin: "5vh auto", border:"2px solid black", borderRadius:"5px", padding:"2em", marginBottom:"130px", marginTop:"90px"}}>
+                <h1>{t("Sign up")}</h1>
                 <Form onSubmit={signupFormSubmit}>
                     <Label htmlFor="emailInput">{t("Email")}:</Label>
                     <TextInput id='emailInput' name='emailInput' type='email'/>

@@ -1,14 +1,16 @@
-import { Form, Label, TextInput, Button } from "@trussworks/react-uswds";
+import { Form, Label, TextInput, Button, Alert } from "@trussworks/react-uswds";
 import { useDispatch } from "react-redux";
 import {useNavigate} from 'react-router-dom'
 import { setEmail, setId, setPassword } from "../../slices/userSlice";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 export default function LoginPage(){
 
     const {t} = useTranslation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [loginAlert, setLoginAlert] = useState(false);
 
     //const user = useSelector((store : any) => store.user);
 
@@ -47,6 +49,10 @@ export default function LoginPage(){
         })
             .then(data => {
                 console.log(data);
+                if(data.status != 200){
+                    setLoginAlert(true);
+                    throw {data}
+                }
                 return data.json()})
             .then(returnedData =>{
                 console.log(returnedData);
@@ -67,18 +73,35 @@ export default function LoginPage(){
 
 
     return(
-        <>
-            <div style={{marginLeft : '4rem'}}>
-                <Form onSubmit={loginFormSubmit}>
-                    <Label htmlFor="emailInput">{t("Email")}:</Label>
-                    <TextInput id='emailInput' name='emailInput' type='email'/>
+        <>  
+            <div style={{width: "25%", minWidth:"25em", margin: "5vh auto", border:"2px solid black", borderRadius:"5px", padding:"2em", marginBottom:"130px", marginTop:"90px"}}>
+                {/*<GridContainer>
+                    <Grid row>
+                        <Grid col={6} offset={3}>*/}
+                            <div>
+                                <h1>{t("Sign In")}</h1>
+                                {loginAlert &&
+                                    <>
+                                        <Alert type="warning" heading={t("Warning status")} headingLevel="h4" noIcon>
+                                            {t("warningText")}
+                                        </Alert>
+                                    </>
+                                }
+                                <Form onSubmit={loginFormSubmit}>
+                                    <Label htmlFor="emailInput">{t("Email")}:</Label>
+                                    <TextInput id='emailInput' name='emailInput' type='email'/>
 
-                    <Label htmlFor="passwordInput">{t("Password")}:</Label>
-                    <TextInput id='passwordInput' name='passwordInput' type='password'/>
+                                    <Label htmlFor="passwordInput">{t("Password")}:</Label>
+                                    <TextInput id='passwordInput' name='passwordInput' type='password'/>
 
-                    <Button type="submit">{t("Log in")}</Button>
-                    <Button type="button" onClick={signUpButton}>{t("Sign up")}</Button>
-                </Form>
+                                    <Button type="submit">{t("Log in")}</Button>
+                                    <Button type="button" onClick={signUpButton}>{t("Sign up")}</Button>
+                                </Form>
+                            </div>
+                            {/*
+                        </Grid>
+                    </Grid>
+                 </GridContainer> */}
             </div>
         </>
     )
