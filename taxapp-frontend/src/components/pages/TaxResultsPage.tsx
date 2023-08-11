@@ -18,7 +18,7 @@ export default function TaxResultsPage(){
         Amount Due / Refund Amount – finalTaxes
     */
 
-    const url = "http://localhost:8080/tax-calculations"
+    const url = "http://44.201.48.146:8080/tax-calculations"
 
     const {t, i18n} = useTranslation();
 
@@ -83,7 +83,7 @@ export default function TaxResultsPage(){
         <>
 
             <div style={{marginLeft : "4em"}}>
-                <Table bordered caption="Tax Results">
+                <Table bordered caption={t("Tax Results")}>
                     <thead>
                         <tr>
                             <th scope="col"></th>

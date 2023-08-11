@@ -24,7 +24,7 @@ export default function LandingPage(){
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/tax-information/user/${user.id}`)
+        fetch(`http://44.201.48.146:8080/tax-information/user/${user.id}`)
             .then(data=>data.json())
             .then(returnedData=>{
                 setTaxCalculationNum(returnedData.length);
@@ -34,7 +34,7 @@ export default function LandingPage(){
             })
             .catch(error => console.error(error));
 
-        fetch(`http://localhost:8080/users/${user.id}`)
+        fetch(`http://44.201.48.146:8080/users/${user.id}`)
             .then(data=>data.json())
             .then(returnedData=>{
                 console.log(returnedData);

@@ -4,8 +4,8 @@ import App from './App.tsx'
 import '@trussworks/react-uswds/lib/index.css';
 import { Provider } from 'react-redux';
 import store from './store.ts';
-
 import "./i18n";
+import "./App.css"
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

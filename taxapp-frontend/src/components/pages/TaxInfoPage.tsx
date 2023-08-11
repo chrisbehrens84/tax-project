@@ -20,7 +20,7 @@ export default function TaxInfoPage(){
 
     const {t} = useTranslation();
 
-    const url = 'http://localhost:8080/tax-information';
+    const url = 'http://44.201.48.146:8080/tax-information';
 
     const [isLoading, setIsloading] = useState(true);
 

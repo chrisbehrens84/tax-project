@@ -6,7 +6,7 @@ import LandingPage from './components/pages/LandingPage'
 import PersonalInfoPage from './components/pages/PersonalInfoPage'
 import TaxInfoPage from './components/pages/TaxInfoPage'
 import TaxResultsPage from './components/pages/TaxResultsPage'
-import { Button, Header, NavMenuButton, PrimaryNav, Title } from '@trussworks/react-uswds'
+import { Address, Button, Footer, Header, Logo, NavMenuButton, PrimaryNav, Title } from '@trussworks/react-uswds'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setEmail, setId, setPassword, setTaxInfoId } from './slices/userSlice'
@@ -58,10 +58,10 @@ export default function App(){
     return(
         <>
             <BrowserRouter>
-                <div className='bg-primary-lighter' style={{height : "100vh"}}>
+                <div  style={{height : "100vh"}}>
                     <div className={`usa-overlay ${expanded ? 'is-visible' : ''}`}></div>
-                    <Header basic={true}>
-                        <div className='usa-nav-container bg-primary-light'>
+                    <Header basic={true} className='bg-accent-cool-lighter' >
+                        <div className='usa-nav-container'>
                             <div className='usa-navbar'>
                                 <Title>{t("appTitle")}</Title>
                                 <NavMenuButton onClick={() =>{setExpanded(!expanded)}} label="Menu" />
@@ -70,14 +70,49 @@ export default function App(){
                             
                         </div>
                     </Header>
-                    <Routes>
-                        <Route path="/" element={<LoginPage/>} />
-                        <Route path="/signup" element={<SignupPage/>} />
-                        <Route path="/home" element={<LandingPage/>} />
-                        <Route path="/personal_info" element={<PersonalInfoPage/>} />
-                        <Route path="/tax_info" element={<TaxInfoPage/>} />
-                        <Route path="/results" element={<TaxResultsPage/>} />
-                    </Routes>
+                    <div style={{}}>
+                        <Routes>
+                            <Route path="/" element={<LoginPage/>} />
+                            <Route path="/signup" element={<SignupPage/>} />
+                            <Route path="/home" element={<LandingPage/>} />
+                            <Route path="/personal_info" element={<PersonalInfoPage/>} />
+                            <Route path="/tax_info" element={<TaxInfoPage/>} />
+                            <Route path="/results" element={<TaxResultsPage/>} />
+                        </Routes>
+                    </div>
+                    <Footer
+                        //className='bg-primary-light'
+                        //style={{position:"absolute", left:0, bottom:0, right:0}}
+                        size="slim"
+                        primary={<></>}
+                        secondary={
+                            <>
+                                <Logo
+                                    size="slim"
+                                    image={
+                                    <img
+                                        className="usa-footer__logo-img"
+                                        alt="img alt text"
+                                        src={"./src/assets/Logo_of_the_Internal_Revenue_Service.svg.png"}
+                                    />
+                                    }
+                                    heading={<p className="usa-footer__logo-heading">Internal Revenue Services</p>}
+                                />
+                                <Address
+                                    size="slim"
+                                    items={[
+                                    <a key="telephone" href="tel:1-800-555-5555">
+                                        (800) 555-5555
+                                    </a>,
+                                    <a key="email" href="mailto:fpolicastro@skillstorm.com">
+                                        fpolicastro@skillstorm.com
+                                    </a>,
+                                    ]}
+                                />
+
+                            </>
+                        }
+                    />
                 </div>
             </BrowserRouter>
         </>

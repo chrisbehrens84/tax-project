@@ -9,7 +9,7 @@ export default function SignupPage(){
 
     const navigate = useNavigate();
     const {t} = useTranslation();
-    const url = 'http://localhost:8080/users';
+    const url = 'http://44.201.48.146:8080/users';
 
     const dispatch = useDispatch();
 
@@ -51,7 +51,7 @@ export default function SignupPage(){
             <div style={{marginLeft : '4rem'}}>
                 <Form onSubmit={signupFormSubmit}>
                     <Label htmlFor="emailInput">{t("Email")}:</Label>
-                    <TextInput id='emailInput' name='emailInput' type='text'/>
+                    <TextInput id='emailInput' name='emailInput' type='email'/>
                     <Label htmlFor="passwordInput">{t("Password")}:</Label>
                     <TextInput id='passwordInput' name='passwordInput' type='password'/>
                     <Label htmlFor="passwordConfirmInput">{t("Confirm Password")}:</Label>

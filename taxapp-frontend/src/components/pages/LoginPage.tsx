@@ -12,7 +12,8 @@ export default function LoginPage(){
 
     //const user = useSelector((store : any) => store.user);
 
-    const url = "http://localhost:8080/users/email"
+    const url = "http://44.201.48.146:8080/users/email"
+    //const url = "http://localhost:8080/users/email"
 
     function loginFormSubmit(event : any){
 
@@ -24,18 +25,29 @@ export default function LoginPage(){
             email : data.get('emailInput'),
             password : data.get('passwordInput')
         }
-        const auth = "Basic " + btoa(messageBody.email + ":" + messageBody.password)
-        console.log(auth);
-        fetch(url ,{
+        const newFormData = new FormData();
 
+        newFormData.append("email", messageBody.email as string);
+        newFormData.append("password", messageBody.password as string);
+
+        console.log(newFormData.get("email"));
+
+        const auth = "Basic " + btoa(messageBody.email + ":" + messageBody.password)
+
+        console.log(auth);
+        fetch(url + `?email=${messageBody.email}&password=${messageBody.password}` ,{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
-                'Authorization' : auth
+                //'Content-Type' : 'application/json'
+                //'Authorization' : auth,
             },
-            body: JSON.stringify(messageBody)
+            //credentials : 'include',
+            //body: newFormData
         })
-            .then(data => data.json())
+            .then(data => {
+                console.log(data);
+                return data.json()})
             .then(returnedData =>{
                 console.log(returnedData);
                 dispatch(setId(returnedData.id));
@@ -59,7 +71,7 @@ export default function LoginPage(){
             <div style={{marginLeft : '4rem'}}>
                 <Form onSubmit={loginFormSubmit}>
                     <Label htmlFor="emailInput">{t("Email")}:</Label>
-                    <TextInput id='emailInput' name='emailInput' type='text'/>
+                    <TextInput id='emailInput' name='emailInput' type='email'/>
 
                     <Label htmlFor="passwordInput">{t("Password")}:</Label>
                     <TextInput id='passwordInput' name='passwordInput' type='password'/>

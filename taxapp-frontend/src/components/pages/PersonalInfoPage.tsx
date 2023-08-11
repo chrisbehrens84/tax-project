@@ -31,7 +31,7 @@ export default function PersonalInfoPage(){
     }
 
     useEffect(() => {
-        fetch(`http://localhost:8080/users/${user.id}`)
+        fetch(`http://44.201.48.146:8080/users/${user.id}`)
         .then(data => data.json())
         .then(returnedData => {
 
@@ -63,7 +63,7 @@ export default function PersonalInfoPage(){
     function personalInfoFormSubmit(event : any){
         event.preventDefault();
         const data = new FormData(event.target);
-        const url = 'http://localhost:8080/users';
+        const url = 'http://44.201.48.146:8080/users';
 
         const userUpdate = {
             id : user.id,
@@ -99,7 +99,7 @@ export default function PersonalInfoPage(){
         <>
             {isLoading && 
                 <>
-                    <p>loading...</p>
+                    <p>{t("loading")}...</p>
                 </>
             }
             {isLoading == false &&
